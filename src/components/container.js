@@ -66,24 +66,6 @@ var Container = React.createClass({
             if (i === _this.state.shuffleDepth) clearInterval(intervalId);
             i++;
         },200);
-
-/*        for (var i = 0; i < this.state.shuffleDepth; i++ ){
-            axis = (Math.floor(Math.random() * 2)); // 0 || 1
-            dir = (Math.floor(Math.random() * 2)) ? 1 : -1;
-
-            if (axis === 0){
-                if (this.state.hole[0] === 0) dir = 1;
-                if (this.state.hole[0] === (this.state.matrix.x-1)) dir = -1;
-            } else if (axis === 1) {
-                if (this.state.hole[1] === 0) dir = 1;
-                if (this.state.hole[1] === (this.state.matrix.y-1)) dir = -1;
-            }
-
-            newHole = this.state.hole.slice(0);
-            newHole[axis] = newHole[axis] + dir;
-
-            this.setState({hole:newHole});
-        }*/
     },
     onChunkMoved : function(point){
         this.setState({hole:point});
