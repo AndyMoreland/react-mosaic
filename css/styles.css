@@ -1,0 +1,16 @@
+.container{
+    position: relative;
+    width: 903px;
+    height: 903px;
+}
+
+.container__chunk{
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    transition: all 0.1s ease;
+}
+
+.container__chunk_clickable{
+    cursor: pointer;
+}

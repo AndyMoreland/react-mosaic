@@ -1,0 +1,22 @@
+{
+  "name": "react-mosaic",
+  "version": "0.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chindyaev/react-mosaic.git"
+  },
+  "author": "achindyaev@yandex.ru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chindyaev/react-mosaic/issues"
+  },
+  "homepage": "https://github.com/chindyaev/react-mosaic",
+  "dependencies": {
+    "react-tools": "~0.11.2"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "react-mosaic",
+  "version": "0.0.0",
+  "homepage": "https://github.com/chindyaev/react-mosaic",
+  "authors": [
+    "anton <achidyaev@yandex.ru>"
+  ],
+  "description": "Just mosaic",
+  "main": "index.html",
+  "license": "MIT",
+  "dependencies": {
+    "react": "~0.11.2",
+    "foundation": "~5.4.6",
+    "jquery": "~2.1.1"
+  }
+}
