@@ -1,16 +1,23 @@
 .container{
     position: relative;
-    width: 903px;
-    height: 903px;
+    width: 600px;
+    height: 600px;
 }
 
 .container__chunk{
     position: absolute;
-    width: 150px;
-    height: 150px;
     transition: all 0.1s ease;
+    box-sizing: border-box;
 }
 
-.container__chunk_clickable{
+.container__chunk_crawable{
     cursor: pointer;
+}
+
+.container__chunk_border-right{
+    border-right: 1px solid #fff;
+}
+
+.container__chunk_border-bottom{
+    border-bottom: 1px solid #fff;
 }
