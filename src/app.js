@@ -1,6 +1,10 @@
 /** @jsx React.DOM */
 'use strict';
+var React = require('react'),
+    App = require('./components/App'),
+    AppDispatcher = require('./dispatcher/AppDispatcher');
+
 React.renderComponent(
-	<Container />,
-	document.getElementById('container')
+	<App />,
+	document.getElementById('app')
 );

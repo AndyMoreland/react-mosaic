@@ -1,68 +1,66 @@
 /** @jsx React.DOM */
 'use strict';
+var React = require('react'),
+    ReactWithAddons = require('../../node_modules/react/addons'),
+    ChunksActions = require('../actions/ChunksActions'),
+    ChunksStore = require('../stores/ChunksStore');
+
 var Chunk = React.createClass({
-    getInitialState:function(){
-        return{
-            image:'',
-            width : 150,
-            height : 150,
-            matrix: {x:0,y:0},
-            origPoint : [0,0],
-            point : [0,0],
-            isMovable:false
-        }
-    },
-    componentDidMount:function(){
+    componentWillMount : function() {
+        var chunk = {};
+        ChunksActions.mount(this.props.point);
+        chunk = ChunksStore.getChunk(this.props.point);
         this.setState({
-            origPoint: this.props.origPoint,
-            point : this.props.origPoint,
-            image: this.props.image,
-            matrix: this.props.matrix,
-            isMovable: this.isMovable(this.props.origPoint,this.props.hole)
+            homePoint : this.props.point,
+            image : this.props.image,
+            matrix : this.props.matrix,
+            point : chunk.point,
+            isCrawable : chunk.isCrawable,
+            width: 100 / this.props.matrix[0], // %
+            height: 100 / this.props.matrix[1] // %
         });
     },
-    componentWillReceiveProps:function(nextProps){
-        var state = {};
-        if (nextProps.hole[0] === this.state.point[0] && nextProps.hole[1] === this.state.point[1]) {
-            state.point = this.props.hole;
-            state.isMovable = this.isMovable(this.props.hole,nextProps.hole);
-        } else {
-            state.isMovable = this.isMovable(this.state.point,nextProps.hole);
-        }
-        this.setState(state);
+    componentDidMount:function(){
+console.info('Chunk mounted');
+        ChunksStore.on('change',this._onChange);
+    },
+    componentWillUnmount: function() {
+        ChunksStore.removeListener('change',this._onChange);
     },
     render:function(){
-        var classes = React.addons.classSet({ 'container__chunk':true, 'container__chunk_clickable':this.state.isMovable });
+        var classes = ReactWithAddons.addons.classSet({
+            'container__chunk':true,
+            'container__chunk_crawable':this.state.isCrawable,
+            'container__chunk_border-right':this.state.point[0] < this.state.matrix[0] - 1,
+            'container__chunk_border-bottom':this.state.point[1] < this.state.matrix[1] - 1
+        });
         return <div className={classes} style={this.style()} onClick={this.clickHandler}></div>;
     },
 
+    _onChange : function(){
+        var chunk = ChunksStore.getChunk(this.state.homePoint);
+        this.setState({
+            point : chunk.point,
+            isCrawable : chunk.isCrawable
+        });
+    },
     style:function(){
         return {
-            'background-image': 'url(' + this.state.image + ')',
-            'background-repeat': 'no-repeat',
-            'background-position-x': '-' + this.state.width * this.state.origPoint[0] + 'px',
-            'background-position-y': '-' + this.state.height * this.state.origPoint[1] + 'px',
-            width: this.state.width + 'px',
-            height: this.state.height + 'px',
-            left: this.state.point[0] + this.state.width * this.state.point[0] + 'px',
-            top: this.state.point[1] + this.state.height * this.state.point[1] + 'px'
-        }
-    },
-    takeHole : function(fn){
-        if (this.state.isMovable){
-            var callback = fn || function(){};
-            this.setState({point:this.props.hole},callback);
+            'background-image' : 'url(' + this.state.image.src + ')',
+            'background-repeat' : 'no-repeat',
+            'background-position-x' : '-' + this.state.image.width / this.state.matrix[0] * this.state.homePoint[0] + 'px',
+            'background-position-y' : '-' + this.state.image.height / this.state.matrix[1] * this.state.homePoint[1] + 'px',
+            width : this.state.width + '%',
+            height : this.state.height + '%',
+            left : this.state.width * this.state.point[0] + '%',
+            top : this.state.height * this.state.point[1] + '%'
         }
     },
     clickHandler:function(){
-        if (this.state.isMovable){
-            var point = this.state.point;
-            this.takeHole(function(){
-                this.props.onChunkMoved(point);
-            });
+        if (this.state.isCrawable){
+            ChunksActions.crawl(this.state.homePoint);
         }
-    },
-    isMovable : function(point,hole){
-        return (Math.abs(hole[0] - point[0]) + Math.abs(hole[1] - point[1]) === 1);
     }
 });
+
+module.exports = Chunk;
