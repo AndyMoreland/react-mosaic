@@ -31,21 +31,27 @@ function mount(coords){
 }
 
 function shuffle(){
-    var hotChunk = null,
-        crawlCount = 0,
+    var crawlCount = 0,
+        crawableChunks = [],
+        rndIndex = null,
+        hotChunk = null,
         intervalId;
 
     intervalId = setInterval(function(){
+        crawableChunks = [];
         data.chunks.forEach(function(arr,x){
             arr.forEach(function(chunk,y){
-                if (chunk.isCrawable && (hotChunk===null || (hotChunk[0]!==x && hotChunk[1]!==y))){
-                    crawl([x,y]);
-                    crawlCount++;
-                    ChunksStore.emit('change');
+                if (chunk.isCrawable && (hotChunk===null || (x!=hotChunk[0] || y!=hotChunk[1]))) {
+                    crawableChunks.push([x,y]);
                 }
-                if (crawlCount === ChunksConstants.SHUFFLE_DEPTH) clearInterval(intervalId);
             });
         });
+        rndIndex = Math.floor(Math.random() * crawableChunks.length);
+        crawl([crawableChunks[rndIndex][0],crawableChunks[rndIndex][1]]);
+        hotChunk = [crawableChunks[rndIndex][0],crawableChunks[rndIndex][1]];
+        crawlCount++;
+        ChunksStore.emit('change');
+        if (crawlCount === ChunksConstants.SHUFFLE_DEPTH) clearInterval(intervalId);
     },ChunksConstants.ANIMATION_DURATION);
 }
 
