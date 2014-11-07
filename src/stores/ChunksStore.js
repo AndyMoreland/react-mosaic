@@ -6,15 +6,20 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
     data = {
         chunks : [],
         hole : PaneConstants.START_HOLE,
-        matrix : []
+        matrix : [],
+        isChunksDone : false
     };
+
+
 
 var ChunksStore = merge(EventEmitter.prototype,{
     getChunk : function(coords){
         return data.chunks[coords[0]][coords[1]];
+    },
+    isChunksDone : function() {
+        return data.isChunksDone;
     }
 });
-
 ChunksStore.setMaxListeners(9999);
 
 function setMatrix(matrix){
@@ -39,12 +44,10 @@ function shuffle(){
 
     intervalId = setInterval(function(){
         crawableChunks = [];
-        data.chunks.forEach(function(arr,x){
-            arr.forEach(function(chunk,y){
-                if (chunk.isCrawable && (hotChunk===null || (x!=hotChunk[0] || y!=hotChunk[1]))) {
-                    crawableChunks.push([x,y]);
-                }
-            });
+        iterateChunks(function(x,y){
+            if (this.isCrawable && (hotChunk===null || (x!=hotChunk[0] || y!=hotChunk[1]))) {
+                crawableChunks.push([x,y]);
+            }
         });
         rndIndex = Math.floor(Math.random() * crawableChunks.length);
         crawl([crawableChunks[rndIndex][0],crawableChunks[rndIndex][1]]);
@@ -63,12 +66,13 @@ function crawl(coords){
         data.chunks[coords[0]][coords[1]] = {
             point : data.hole,
             isHome : isHome(coords),
-            isCrawable : isCrawable([coords[0],coords[1]],newHole)
+            isCrawable : !data.isChunksDone && isCrawable([coords[0],coords[1]],newHole)
         };
         data.hole = newHole;
     }
     actualizeChunks();
     checkComplete();
+    actualizeChunks();
 }
 
 function isHome(coords){
@@ -81,17 +85,31 @@ function isCrawable(coords,hole){
 }
 
 function actualizeChunks() {
-    data.chunks.forEach(function(arr,x){
-        arr.forEach(function(chunk,y){
-            data.chunks[x][y].isHome = isHome([x,y]);
-            data.chunks[x][y].isCrawable = isCrawable(chunk.point,data.hole);
-        });
+    iterateChunks(function(x,y){
+        data.chunks[x][y].isHome = isHome([x,y]);
+        data.chunks[x][y].isCrawable = !data.isChunksDone && isCrawable(this.point,data.hole);
     });
 }
 
 function checkComplete() {
-
+    var isDone = true;
+    iterateChunks(function(){
+        if (!this.isHome) isDone = false;
+    });
+    data.isChunksDone = isDone;
 }
+
+function iterateChunks(f){
+    if (typeof f === 'function') {
+        data.chunks.forEach(function(arr,x){
+            arr.forEach(function(chunk,y){
+                f.call(chunk,x,y);
+            });
+        });
+    }
+}
+
+
 
 AppDispatcher.register(function(payload){
     var coords, matrix;

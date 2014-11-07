@@ -12,6 +12,7 @@ var Chunk = React.createClass({
         chunk = ChunksStore.getChunk(this.props.point);
         this.setState({
             homePoint : this.props.point,
+            isChunksDone : ChunksStore.isChunksDone(),
             image : this.props.image,
             matrix : this.props.matrix,
             point : chunk.point,
@@ -21,7 +22,6 @@ var Chunk = React.createClass({
         });
     },
     componentDidMount:function(){
-console.info('Chunk mounted');
         ChunksStore.on('change',this._onChange);
     },
     componentWillUnmount: function() {
@@ -30,9 +30,9 @@ console.info('Chunk mounted');
     render:function(){
         var classes = ReactWithAddons.addons.classSet({
             'container__chunk':true,
-            'container__chunk_crawable':this.state.isCrawable,
-            'container__chunk_border-right':this.state.point[0] < this.state.matrix[0] - 1,
-            'container__chunk_border-bottom':this.state.point[1] < this.state.matrix[1] - 1
+            'container__chunk_crawable':this.state.isCrawable && !this.state.isChunksDone,
+            'container__chunk_border-right': !this.state.isChunksDone && (this.state.point[0] < this.state.matrix[0] - 1),
+            'container__chunk_border-bottom': !this.state.isChunksDone && (this.state.point[1] < this.state.matrix[1] - 1)
         });
         return <div className={classes} style={this.style()} onClick={this.clickHandler}></div>;
     },
@@ -41,7 +41,8 @@ console.info('Chunk mounted');
         var chunk = ChunksStore.getChunk(this.state.homePoint);
         this.setState({
             point : chunk.point,
-            isCrawable : chunk.isCrawable
+            isCrawable : chunk.isCrawable,
+            isChunksDone : ChunksStore.isChunksDone()
         });
     },
     style:function(){

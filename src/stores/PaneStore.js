@@ -8,7 +8,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
             width : 600,
             height : 600
         },
-        matrix : [4,4]
+        matrix : [3,3]
     };
 
 var PaneStore = merge(EventEmitter.prototype,{

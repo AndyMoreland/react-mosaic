@@ -45,34 +45,7 @@ var React = require('react'),
                 matrix:PaneStore.getMatrixData(),
                 hole:PaneStore.getHoleData()
             });
-        }/*,
-
-        shuffle: function(){
-            var axis, dir, newHole = [], i = 0, _this = this, intervalId;
-
-            intervalId = setInterval(function(){
-                axis = (Math.floor(Math.random() * 2)); // 0 || 1
-                dir = (Math.floor(Math.random() * 2)) ? 1 : -1;
-
-                if (axis === 0){
-                    if (_this.state.hole[0] === 0) dir = 1;
-                    if (_this.state.hole[0] === (_this.state.matrix.x-1)) dir = -1;
-                } else if (axis === 1) {
-                    if (_this.state.hole[1] === 0) dir = 1;
-                    if (_this.state.hole[1] === (_this.state.matrix.y-1)) dir = -1;
-                }
-
-                newHole = _this.state.hole.slice(0);
-                newHole[axis] = newHole[axis] + dir;
-
-                _this.setState({hole:newHole});
-
-                if (i === _this.state.shuffleDepth) clearInterval(intervalId);
-                i++;
-            },50);
-        },
-*/
-
+        }
 });
 
 module.exports = Pane;
