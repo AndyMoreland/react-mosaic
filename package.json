@@ -1,11 +1,16 @@
 {
   "name": "react-mosaic",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Mosaic nice game",
   "main": "",
+  "keywords" : ["mosaic","react","flux"],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "watchify -o dest/bundle.js -v -d ."
+    "transform-js" : "jsx -x js src/ dest/",
+    "browserify" : "browserify -o dest/bundle.js dest/app.js -d",
+    "develop": "watch 'npm run build' src/ --wait=0",
+    "build" : "npm run transform-js && npm run browserify",
+    "postinstall" : "bower install && npm run build",
+    "postupdate" : "bower update"
   },
   "repository": {
     "type": "git",
@@ -18,15 +23,12 @@
   },
   "homepage": "https://github.com/chindyaev/react-mosaic",
   "dependencies": {
+    "react": "~0.12.0",
     "react-tools": "~0.11.2",
-    "flux": "~2.0.1",
-    "browserify": "~6.2.0",
-    "react": "~0.12.0"
+    "flux": "~2.0.1"
   },
   "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-browserify": "~3.1.0",
-    "grunt-contrib-watch": "~0.6.1",
-    "watchify": "~2.1.1"
+    "browserify": "~6.2.0",
+    "watch": "~0.13.0"
   }
 }
