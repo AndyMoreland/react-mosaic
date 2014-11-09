@@ -5,19 +5,17 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
     merge = require('react/lib/merge'),
     data = {
         chunks : [],
-        hole : PaneConstants.START_HOLE,
         matrix : [],
-        isChunksDone : false
+        isGame : false,
+        hole:PaneConstants.START_HOLE
     };
-
-
 
 var ChunksStore = merge(EventEmitter.prototype,{
     getChunk : function(coords){
         return data.chunks[coords[0]][coords[1]];
     },
-    isChunksDone : function() {
-        return data.isChunksDone;
+    isGame : function() {
+        return data.isGame;
     }
 });
 ChunksStore.setMaxListeners(9999);
@@ -33,6 +31,10 @@ function mount(coords){
         isHome : true,
         isCrawable : isCrawable([coords[0],coords[1]],data.hole)
     }
+}
+
+function gameStart(){
+    data.isGame = true;
 }
 
 function shuffle(){
@@ -66,7 +68,7 @@ function crawl(coords){
         data.chunks[coords[0]][coords[1]] = {
             point : data.hole,
             isHome : isHome(coords),
-            isCrawable : !data.isChunksDone && isCrawable([coords[0],coords[1]],newHole)
+            isCrawable : isCrawable([coords[0],coords[1]],newHole)
         };
         data.hole = newHole;
     }
@@ -87,7 +89,7 @@ function isCrawable(coords,hole){
 function actualizeChunks() {
     iterateChunks(function(x,y){
         data.chunks[x][y].isHome = isHome([x,y]);
-        data.chunks[x][y].isCrawable = !data.isChunksDone && isCrawable(this.point,data.hole);
+        data.chunks[x][y].isCrawable = isCrawable(this.point,data.hole);
     });
 }
 
@@ -96,7 +98,10 @@ function checkComplete() {
     iterateChunks(function(){
         if (!this.isHome) isDone = false;
     });
-    data.isChunksDone = isDone;
+    if (isDone) {
+        data.isGame = false;
+        ChunksStore.emit('done');
+    }
 }
 
 function iterateChunks(f){
@@ -119,9 +124,19 @@ AppDispatcher.register(function(payload){
             matrix = payload.matrix;
             setMatrix(matrix);
             break;
+        case 'GAME_STARTED':
+            gameStart();
+            break;
+        case 'GAME_FINISHED':
+            gameFinish();
+            break;
         case 'CHUNK_MOUNT':
             coords = payload.coords;
             mount(coords);
+            break;
+        case 'CHUNK_UNMOUNT':
+            coords = payload.coords;
+            unMount(coords);
             break;
         case 'CHUNKS_SHUFFLE':
             shuffle();
