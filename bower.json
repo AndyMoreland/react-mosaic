@@ -11,6 +11,8 @@
   "dependencies": {
     "react": "~0.11.2",
     "foundation": "~5.4.6",
-    "jquery": "~2.1.1"
+    "jquery": "~2.1.1",
+    "bootstrap-material-design": "~0.1.5",
+    "bootstrap": "~3.3.1"
   }
 }

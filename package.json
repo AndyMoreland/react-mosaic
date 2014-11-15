@@ -3,14 +3,19 @@
   "version": "0.0.1",
   "description": "Mosaic nice game",
   "main": "",
-  "keywords" : ["mosaic","react","flux"],
+  "keywords": [
+    "mosaic",
+    "react",
+    "flux"
+  ],
   "scripts": {
-    "transform-js" : "jsx -x js src/ dest/",
-    "browserify" : "browserify -o dest/bundle.js dest/app.js -d",
+    "css": "grunt concat-css && cleancss -o ./dist/css/styles.min.css ./dist/css/styles.css",
+    "transform-js": "jsx -x js src/ dist/",
+    "browserify": "browserify -o dist/bundle.js dist/app.js -d",
     "develop": "watch 'npm run build' src/ --wait=0",
-    "build" : "npm run transform-js && npm run browserify",
-    "postinstall" : "bower install && npm run build",
-    "postupdate" : "bower update"
+    "build": "npm run css && npm run transform-js && npm run browserify",
+    "postinstall": "bower install && npm run build",
+    "postupdate": "bower update"
   },
   "repository": {
     "type": "git",
@@ -29,6 +34,9 @@
   },
   "devDependencies": {
     "browserify": "~6.2.0",
-    "watch": "~0.13.0"
+    "watch": "~0.13.0",
+    "grunt": "~0.4.5",
+    "grunt-contrib-concat": "~0.5.0",
+    "clean-css": "~2.2.17"
   }
 }
