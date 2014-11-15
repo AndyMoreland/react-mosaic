@@ -1,7 +1,12 @@
-.container{
+body {
+    background: #eee;
+}
+
+.pane{
     position: relative;
     width: 600px;
     height: 600px;
+    margin: 0 auto;
 }
 
 .container__chunk{
