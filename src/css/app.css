@@ -2,27 +2,35 @@ body {
     background: #eee;
 }
 
-.pane{
+.app{
     position: relative;
-    width: 600px;
-    height: 600px;
-    margin: 0 auto;
 }
 
-.container__chunk{
+.pane__chunk{
     position: absolute;
     transition: all 0.1s ease;
     box-sizing: border-box;
 }
 
-.container__chunk_crawable{
+.pane__chunk_crawable{
     cursor: pointer;
 }
 
-.container__chunk_border-right{
+.pane__chunk_border-right{
     border-right: 1px solid #fff;
 }
 
-.container__chunk_border-bottom{
+.pane__chunk_border-bottom{
     border-bottom: 1px solid #fff;
+}
+
+
+
+.mui-toolbar{
+    height: auto;
+    line-height: normal;
+}
+
+.mui-icon-highlight{
+    display: none;
 }

@@ -11,9 +11,9 @@
   "scripts": {
     "css": "grunt concat-css && cleancss -o ./dist/css/styles.min.css ./dist/css/styles.css",
     "transform-js": "jsx -x js src/ dist/",
-    "browserify": "browserify -o dist/bundle.js dist/app.js -d",
+    "browserify": "browserify -t reactify -o dist/bundle.js dist/app.js -d",
     "develop": "watch 'npm run build' src/ --wait=0",
-    "build": "npm run css && npm run transform-js && npm run browserify",
+    "build": "ulimit -n 10000 && npm run css && npm run transform-js && npm run browserify",
     "postinstall": "bower install && npm run build",
     "postupdate": "bower update"
   },
@@ -30,7 +30,9 @@
   "dependencies": {
     "react": "~0.12.0",
     "react-tools": "~0.11.2",
-    "flux": "~2.0.1"
+    "flux": "~2.0.1",
+    "material-ui": "~0.3.0",
+    "reactify": "~0.17.0"
   },
   "devDependencies": {
     "browserify": "~6.2.0",

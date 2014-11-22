@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 'use strict';
 var React = require('react'),
+    PaneActions = require('../actions/PaneActions'),
     ChunksActions = require('../actions/ChunksActions'),
     PaneStore = require('../stores/PaneStore'),
     ChunksStore = require('../stores/ChunksStore'),
@@ -19,6 +20,9 @@ var React = require('react'),
             };
         },
         componentDidMount:function(){
+            this.setState({
+                edge:this.getDOMNode().clientWidth
+            });
             this.startGame();
             PaneStore.on('change',this._onPaneChange);
             ChunksStore.on('done',this._onDone);
@@ -38,7 +42,7 @@ var React = require('react'),
                 }
             }
 
-            return (<div className='container' style={this.style()}>
+            return (<div className='pane' style={this.style()}>
                 {chunks.map(function(chunk){
                     return <Chunk ref={'chunk'+chunk.x+chunk.y} key={'chunk-'+chunk.x+chunk.y} point={[chunk.x,chunk.y]} image={this.state.image} matrix={this.state.matrix} />;
                 },this)}
@@ -48,16 +52,18 @@ var React = require('react'),
         startGame : function(){
             var _this = this;
             setTimeout(function(){
-                ChunksActions.gameStarted();
+                PaneActions.gameStart();
                 ChunksActions.shuffle();
                 _this.setState({ isGame : true });
             },500); // todo
         },
         style : function() {
             return {
-                'background-position' : '0 0',
-                'background-repeat' : 'no-repeat',
-                'background-image' : (!this.state.isGame) ? 'url(' + this.state.image.src + ')' : 'none'
+                'width' : this.state.edge + 'px',
+                'height' : this.state.edge + 'px',
+                'backgroundPosition' : '0 0',
+                'backgroundRepeat' : 'no-repeat',
+                'backgroundImage' : (!this.state.isGame) ? 'url(' + this.state.image.src + ')' : 'none'
             }
         },
         _onPaneChange : function(){

@@ -62,7 +62,8 @@ function shuffle(){
 
 function crawl(coords){
     var newHole;
-    if (data.chunks[coords[0]][coords[1]].isCrawable) {
+    if (data.chunks[coords[0]][coords[1]].isCrawable)
+    {
         // !!!! ATTENTION TO BINDINGS
         newHole = data.chunks[coords[0]][coords[1]].point;
         data.chunks[coords[0]][coords[1]] = {
@@ -117,32 +118,26 @@ function iterateChunks(f){
 
 
 AppDispatcher.register(function(payload){
-    var coords, matrix;
+    var matrix,
+        coords;
 
-    switch (payload.actionType){
-        case 'SET_MATRIX':
+    switch (payload.action){
+        case PaneConstants.ACTION_SET_MATRIX:
             matrix = payload.matrix;
             setMatrix(matrix);
             break;
-        case 'GAME_STARTED':
+        case PaneConstants.ACTION_GAME_START:
             gameStart();
             break;
-        case 'GAME_FINISHED':
-            gameFinish();
-            break;
-        case 'CHUNK_MOUNT':
+        case ChunksConstants.ACTION_MOUNT:
             coords = payload.coords;
             mount(coords);
             break;
-        case 'CHUNK_UNMOUNT':
-            coords = payload.coords;
-            unMount(coords);
-            break;
-        case 'CHUNKS_SHUFFLE':
+        case ChunksConstants.ACTION_SHUFFLE:
             shuffle();
             return true;
             break;
-        case 'CHUNK_CRAWL':
+        case ChunksConstants.ACTION_CRAWL:
             coords = payload.coords;
             crawl(coords);
             break;

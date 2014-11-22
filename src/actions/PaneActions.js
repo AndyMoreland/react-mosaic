@@ -1,16 +1,14 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher'),
+    PaneConstants = require('../constants/PaneConstants'),
     PaneActions = {
         setImage : function(image) {
-            AppDispatcher.dispatch({
-                actionType : 'PANE_SET_IMAGE',
-                image : image
-            });
+            AppDispatcher.dispatch({action : PaneConstants.ACTION_SET_IMAGE, image : image});
         },
-        setHole : function(hole) {
-            AppDispatcher.dispatch({
-                actionType : 'PANE_SET_HOLE',
-                hole : hole
-            });
+        gameStart : function() {
+            AppDispatcher.dispatch({ action : PaneConstants.ACTION_GAME_START });
+        },
+        setMatrix : function(matrix) {
+            AppDispatcher.dispatch({ action : PaneConstants.ACTION_SET_MATRIX, matrix : matrix });
         }
     };
 
