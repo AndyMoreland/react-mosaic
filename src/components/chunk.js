@@ -12,7 +12,6 @@ var Chunk = React.createClass({
         chunk = ChunksStore.getChunk(this.props.point);
         this.setState({
             homePoint : this.props.point,
-            isGame : ChunksStore.isGame(),
             image : this.props.image,
             matrix : this.props.matrix,
             point : chunk.point,
@@ -31,9 +30,9 @@ var Chunk = React.createClass({
     render:function(){
         var classes = ReactWithAddons.addons.classSet({
             'pane__chunk':true,
-            'pane__chunk_crawable':this.state.isCrawable && this.state.isGame,
-            'pane__chunk_border-right': this.state.isGame && (this.state.point[0] < this.state.matrix[0] - 1),
-            'pane__chunk_border-bottom': this.state.isGame && (this.state.point[1] < this.state.matrix[1] - 1)
+            'pane__chunk_crawable':this.state.isCrawable && this.props.isGame,
+            'pane__chunk_border-right': this.props.isGame && (this.state.point[0] < this.state.matrix[0] - 1),
+            'pane__chunk_border-bottom': this.props.isGame && (this.state.point[1] < this.state.matrix[1] - 1)
         });
         return <div className={classes} style={this.style()} onClick={this.clickHandler}></div>;
     },
@@ -43,8 +42,7 @@ var Chunk = React.createClass({
         if (chunk) {
             this.setState({
                 point : chunk.point,
-                isCrawable : chunk.isCrawable,
-                isGame : ChunksStore.isGame()
+                isCrawable : chunk.isCrawable
             });
         }
     },
@@ -61,7 +59,8 @@ var Chunk = React.createClass({
         }
     },
     clickHandler:function(){
-        if (this.state.isCrawable && this.state.isGame){
+        if (this.state.isCrawable && this.props.isGame)
+        {
             ChunksActions.crawl(this.state.homePoint);
         }
     }

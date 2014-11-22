@@ -23,7 +23,6 @@ var React = require('react'),
             this.setState({
                 edge:this.getDOMNode().clientWidth
             });
-            this.startGame();
             PaneStore.on('change',this._onPaneChange);
             ChunksStore.on('done',this._onDone);
         },
@@ -34,8 +33,10 @@ var React = require('react'),
         render: function()
         {
             var chunks = [];
-            for (var x = 0; x < this.state.matrix[0]; x++){
-                for (var y = 0; y < this.state.matrix[1]; y++) {
+            for (var x = 0; x < this.state.matrix[0]; x++)
+            {
+                for (var y = 0; y < this.state.matrix[1]; y++)
+                {
                     if (!(x===this.state.startHole[0] && y===this.state.startHole[1])){
                         chunks.push({ x:x, y:y });
                     }
@@ -44,18 +45,9 @@ var React = require('react'),
 
             return (<div className='pane' style={this.style()}>
                 {chunks.map(function(chunk){
-                    return <Chunk ref={'chunk'+chunk.x+chunk.y} key={'chunk-'+chunk.x+chunk.y} point={[chunk.x,chunk.y]} image={this.state.image} matrix={this.state.matrix} />;
+                    return <Chunk ref={'chunk'+chunk.x+chunk.y} key={'chunk-'+chunk.x+chunk.y} point={[chunk.x,chunk.y]} isGame={this.state.isGame} image={this.state.image} matrix={this.state.matrix} />;
                 },this)}
             </div>);
-        },
-
-        startGame : function(){
-            var _this = this;
-            setTimeout(function(){
-                PaneActions.gameStart();
-                ChunksActions.shuffle();
-                _this.setState({ isGame : true });
-            },500); // todo
         },
         style : function() {
             return {
@@ -70,7 +62,8 @@ var React = require('react'),
             this.setState({
                 image:PaneStore.getImageData(),
                 matrix:PaneStore.getMatrixData(),
-                hole:PaneConstants.START_HOLE
+                hole:PaneConstants.START_HOLE,
+                isGame: PaneStore.isGame()
             });
         },
         _onDone : function(){

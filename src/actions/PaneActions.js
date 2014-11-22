@@ -7,6 +7,9 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
         gameStart : function() {
             AppDispatcher.dispatch({ action : PaneConstants.ACTION_GAME_START });
         },
+        gameRollback : function(){
+            AppDispatcher.dispatch({ action : PaneConstants.ACTION_GAME_ROLLBACK });
+        },
         setMatrix : function(matrix) {
             AppDispatcher.dispatch({ action : PaneConstants.ACTION_SET_MATRIX, matrix : matrix });
         }

@@ -1,5 +1,6 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher'),
     PaneConstants = require('../constants/PaneConstants'),
+    ChunksStore = require('../stores/ChunksStore'),
     EventEmitter = require('events').EventEmitter,
     merge = require('react/lib/merge'),
     data = {
@@ -8,7 +9,8 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
             width : 600,
             height : 600
         },
-        matrix : [3,3]
+        matrix : [3,3],
+        isGame : false
     };
 
 var PaneStore = merge(EventEmitter.prototype,{
@@ -17,6 +19,9 @@ var PaneStore = merge(EventEmitter.prototype,{
     },
     getMatrixData : function() {
         return data.matrix;
+    },
+    isGame:function(){
+        return data.isGame;
     }
 });
 
@@ -28,15 +33,24 @@ function setMatrix(matrix){
     data.matrix = matrix;
 }
 
+ChunksStore.on('done',function(){
+console.log('ChunksStore.on(done)');
+    data.isGame = false;
+    PaneStore.emit('change');
+});
+
 AppDispatcher.register(function(payload){
     var image, matrix;
 
-    switch (payload.actionType){
-        case 'PANE_SET_IMAGE':
+    switch (payload.action){
+        case PaneConstants.ACTION_SET_IMAGE:
             image = payload.image;
             setImage(image);
             break;
-        case 'PANE_SET_MATRIX':
+        case PaneConstants.ACTION_GAME_START:
+            data.isGame = true;
+            break;
+        case PaneConstants.ACTION_SET_MATRIX:
             matrix = payload.matrix;
             setImage(image);
             break;

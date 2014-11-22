@@ -6,18 +6,15 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
     data = {
         chunks : [],
         matrix : [],
-        isGame : false,
         hole:PaneConstants.START_HOLE
     };
 
 var ChunksStore = merge(EventEmitter.prototype,{
     getChunk : function(coords){
         return data.chunks[coords[0]][coords[1]];
-    },
-    isGame : function() {
-        return data.isGame;
     }
 });
+
 ChunksStore.setMaxListeners(9999);
 
 function setMatrix(matrix){
@@ -34,7 +31,7 @@ function mount(coords){
 }
 
 function gameStart(){
-    data.isGame = true;
+    shuffle();
 }
 
 function shuffle(){
@@ -78,6 +75,15 @@ function crawl(coords){
     actualizeChunks();
 }
 
+function rollback(){
+    iterateChunks(function(x,y){
+        data.chunks[x][y].point = [x,y];
+    });
+    data.hole = PaneConstants.START_HOLE;
+    actualizeChunks();
+    checkComplete();
+}
+
 function isHome(coords){
     return (coords[0] === data.chunks[coords[0]][coords[1]].point[0] &&
             coords[1] === data.chunks[coords[0]][coords[1]].point[1]);
@@ -100,7 +106,6 @@ function checkComplete() {
         if (!this.isHome) isDone = false;
     });
     if (isDone) {
-        data.isGame = false;
         ChunksStore.emit('done');
     }
 }
@@ -140,6 +145,9 @@ AppDispatcher.register(function(payload){
         case ChunksConstants.ACTION_CRAWL:
             coords = payload.coords;
             crawl(coords);
+            break;
+        case PaneConstants.ACTION_GAME_ROLLBACK:
+            rollback();
             break;
         default:
             return true;
