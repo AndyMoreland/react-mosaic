@@ -17,10 +17,14 @@ var Chunk = React.createClass({
             point : chunk.point,
             isCrawable : chunk.isCrawable,
             width: 100 / this.props.matrix[0], // %
-            height: 100 / this.props.matrix[1] // %
+            height: 100 / this.props.matrix[1], // %
+            edgePx: 0
         });
     },
     componentDidMount: function(){
+        this.setState({
+            edgePx: this.getDOMNode().clientWidth
+        });
         ChunksStore.on('change',this._onChunksChange);
     },
     componentWillUnmount: function() {
@@ -48,9 +52,10 @@ var Chunk = React.createClass({
     },
     style:function(){
         return {
-            'backgroundImage' : 'url(' + this.state.image.src + ')',
-            'backgroundRepeat' : 'no-repeat',
-            'backgroundPosition' : '-' + this.state.image.width / this.state.matrix[0] * this.state.homePoint[0] + 'px' + ' -' + this.state.image.height / this.state.matrix[1] * this.state.homePoint[1] + 'px',
+            backgroundImage : 'url(' + this.state.image.src + ')',
+            backgroundRepeat : 'no-repeat',
+            backgroundPosition : '-' + this.state.edgePx * this.state.homePoint[0] + 'px' + ' -' + this.state.edgePx * this.state.homePoint[1] + 'px',
+            backgroundSize : 100 * this.state.matrix[0] + '%',
             width : this.state.width + '%',
             height : this.state.height + '%',
             left : this.state.width * this.state.point[0] + '%',

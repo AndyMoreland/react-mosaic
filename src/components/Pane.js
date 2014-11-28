@@ -51,11 +51,12 @@ var React = require('react'),
         },
         style : function() {
             return {
-                'width' : this.state.edge + 'px',
-                'height' : this.state.edge + 'px',
-                'backgroundPosition' : '0 0',
-                'backgroundRepeat' : 'no-repeat',
-                'backgroundImage' : (!this.state.isGame) ? 'url(' + this.state.image.src + ')' : 'none'
+                width : this.state.edge + 'px',
+                height : this.state.edge + 'px',
+                backgroundPosition : '0 0',
+                backgroundRepeat : 'no-repeat',
+                backgroundImage : (!this.state.isGame) ? 'url(' + this.state.image.src + ')' : 'none',
+                backgroundSize : '100%'
             }
         },
         _onPaneChange : function(){

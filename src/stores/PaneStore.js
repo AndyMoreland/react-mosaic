@@ -5,7 +5,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
     merge = require('react/lib/merge'),
     data = {
         image : {
-            src : 'img/covers/main4.jpg',
+            src : 'img/covers/snop.jpg',
             width : 600,
             height : 600
         },
