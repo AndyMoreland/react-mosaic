@@ -50,8 +50,7 @@ var Chunk = React.createClass({
         return {
             'backgroundImage' : 'url(' + this.state.image.src + ')',
             'backgroundRepeat' : 'no-repeat',
-            'backgroundPositionX' : '-' + this.state.image.width / this.state.matrix[0] * this.state.homePoint[0] + 'px',
-            'backgroundPositionY' : '-' + this.state.image.height / this.state.matrix[1] * this.state.homePoint[1] + 'px',
+            'backgroundPosition' : '-' + this.state.image.width / this.state.matrix[0] * this.state.homePoint[0] + 'px' + ' -' + this.state.image.height / this.state.matrix[1] * this.state.homePoint[1] + 'px',
             width : this.state.width + '%',
             height : this.state.height + '%',
             left : this.state.width * this.state.point[0] + '%',
