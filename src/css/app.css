@@ -6,26 +6,6 @@ body {
     position: relative;
 }
 
-.pane__chunk{
-    position: absolute;
-    transition: all 0.1s ease;
-    box-sizing: border-box;
-}
-
-.pane__chunk_crawable{
-    cursor: pointer;
-}
-
-.pane__chunk_border-right{
-    border-right: 1px solid #fff;
-}
-
-.pane__chunk_border-bottom{
-    border-bottom: 1px solid #fff;
-}
-
-
-
 .mui-toolbar{
     height: auto;
     line-height: normal;

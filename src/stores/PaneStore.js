@@ -9,7 +9,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
             width : 600,
             height : 600
         },
-        matrix : [3,3],
+        matrix : [4,4],
         isGame : false
     };
 

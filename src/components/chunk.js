@@ -33,12 +33,21 @@ var Chunk = React.createClass({
     },
     render:function(){
         var classes = ReactWithAddons.addons.classSet({
-            'pane__chunk':true,
-            'pane__chunk_crawable':this.state.isCrawable && this.props.isGame,
-            'pane__chunk_border-right': this.props.isGame && (this.state.point[0] < this.state.matrix[0] - 1),
-            'pane__chunk_border-bottom': this.props.isGame && (this.state.point[1] < this.state.matrix[1] - 1)
-        });
-        return <div className={classes} style={this.style()} onClick={this.clickHandler}></div>;
+                'pane__chunk':true,
+                'pane__chunk_crawable':this.state.isCrawable && this.props.isGame
+            }),
+            rightBorderStyles = {
+                display : (this.props.isGame && (this.state.point[0] < this.state.matrix[0] - 1)) ? 'block' : 'none',
+                height: this.state.edgePx + 'px'
+            },
+            bottomBorderStyles = {
+                display : (this.props.isGame && (this.state.point[1] < this.state.matrix[1] - 1)) ? 'block' : 'none'
+            };
+
+        return (<div className={classes} style={this.style()} onClick={this.clickHandler}>
+            <div className='pane__chunk-border pane__chunk-border_right' style={rightBorderStyles}></div>
+            <div className='pane__chunk-border pane__chunk-border_bottom' style={bottomBorderStyles}></div>
+        </div>);
     },
 
     _onChunksChange : function(){
@@ -52,6 +61,7 @@ var Chunk = React.createClass({
     },
     style:function(){
         return {
+            backgroundClip: 'border-box',
             backgroundImage : 'url(' + this.state.image.src + ')',
             backgroundRepeat : 'no-repeat',
             backgroundPosition : '-' + this.state.edgePx * this.state.homePoint[0] + 'px' + ' -' + this.state.edgePx * this.state.homePoint[1] + 'px',

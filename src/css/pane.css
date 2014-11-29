@@ -3,6 +3,38 @@
     margin: auto;
 }
 
+.pane__chunk{
+    position: absolute;
+    transition: all 0.1s ease;
+    box-sizing: border-box;
+}
+
+.pane__chunk_crawable{
+    cursor: pointer;
+}
+
+.pane__chunk-border{
+    position: absolute;
+    background-color: #fff;
+}
+
+.pane__chunk-border_right{
+    top: 0;
+    right: 0;
+    width: 1px;
+}
+
+.pane__chunk-border_bottom{
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+}
+
+.pane__chunk_border-bottom{
+    border-bottom: 1px solid #fff;
+}
+
 @media (orientation: portrait){
     .pane{
         width: 100%;
