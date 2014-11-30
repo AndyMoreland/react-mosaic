@@ -6,7 +6,8 @@ var React = require('react'),
     Header = require('./Header'),
     Pane = require('./Pane'),
     App = React.createClass({
-        componentDidMount : function(){
+        componentWillMount : function(){
+            React.initializeTouchEvents(true);
         },
         render : function(){
             return <div className="app">
@@ -17,4 +18,4 @@ var React = require('react'),
         }
     });
 
-module.exports = App;
+module.exports = App; //
