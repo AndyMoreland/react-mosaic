@@ -22,29 +22,44 @@ var React = require('react'),
         render : function(){
             var gameIcon = (this.state.isGame) ? 'av-replay' : 'av-play-arrow';
 
-            return (<div className="toolbar">
+            return (<div className="toolbar-container">
+
                 <Dialog ref="matrixDialog" title="Set matrix">
-                    <div className="toolbar__dialog-link" onMouseDown={this._setMatrix33}>3x3</div>
-                    <div className="toolbar__dialog-link" onMouseDown={this._setMatrix44}>4x4</div>
-                    <div className="toolbar__dialog-link" onMouseDown={this._setMatrix55}>5x5</div>
+                    <div className="toolbar-container__dialog-link" onMouseDown={this._setMatrix33}>3x3</div>
+                    <div className="toolbar-container__dialog-link" onMouseDown={this._setMatrix44}>4x4</div>
+                    <div className="toolbar-container__dialog-link" onMouseDown={this._setMatrix55}>5x5</div>
                 </Dialog>
-                <div className="mui-app-bar grid_cols_12">
-                    <div className="grid__module grid__module_col_1 grid__module_span_4 toolbar__section-wrap">
-                        <div className="toolbar__section">
+
+                <div className="toolbar-landscape">
+                    <div className="toolbar-landscape__section">
+                        <Icon icon="image-grid-on" onMouseDown={this._onMatrixMouseDown}/>
+                    </div>
+                    <div className="toolbar-landscape__section">
+                        <Icon icon="image-photo-library" onMouseDown={this._onImageMouseDown}/>
+                    </div>
+                    <div className="toolbar-landscape__section">
+                        <Icon icon={gameIcon} onMouseDown={this._onPlayMouseDown}/>
+                    </div>                                        
+                </div>
+
+                <div className="toolbar-portrait mui-app-bar grid_cols_12">
+                    <div className="grid__module grid__module_col_1 grid__module_span_4 toolbar-portrait__section-wrap">
+                        <div className="toolbar-portrait__section">
                             <Icon icon="image-grid-on" onMouseDown={this._onMatrixMouseDown}/>
                         </div>
                     </div>
-                    <div className="grid__module grid__module_col_5 grid__module_span_4 toolbar__section-wrap">
-                        <div className="toolbar__section">
+                    <div className="grid__module grid__module_col_5 grid__module_span_4 toolbar-portrait__section-wrap">
+                        <div className="toolbar-portrait__section">
                             <Icon icon="image-photo-library" onMouseDown={this._onImageMouseDown} />
                         </div>
                     </div>
-                    <div className="grid__module grid__module_col_9 grid__module_span_4 toolbar__section-wrap">
-                        <div className="toolbar__section">
+                    <div className="grid__module grid__module_col_9 grid__module_span_4 toolbar-portrait__section-wrap">
+                        <div className="toolbar-portrait__section">
                             <Icon icon={gameIcon} onMouseDown={this._onPlayMouseDown} />
                         </div>
                     </div>
                 </div>
+
             </div>);
         },
 

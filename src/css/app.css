@@ -14,3 +14,7 @@ body {
 .mui-icon-highlight{
     display: none;
 }
+
+.mui-icon{
+	font-size: 50px;
+}

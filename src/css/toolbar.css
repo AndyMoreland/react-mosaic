@@ -1,21 +1,45 @@
-.toolbar{
+.toolbar-container{
 
 }
 
-.toolbar__section-wrap{
+
+/* Vertical orientation */
+@media (orientation: portrait){
+    .toolbar-landscape{ display: none; }    
+}
+
+.toolbar-portrait__section-wrap{
     color: #fff;
     text-align: center;
 }
 
-.toolbar__section{
+.toolbar-portrait__section{
     display: inline-block;
+    padding: 15px 0;
 }
 
-.toolbar__dialog{
 
+/* Horizontal orientation */
+@media (orientation: landscape){
+    .toolbar-portrait{ display: none; }    
 }
 
-.toolbar__dialog-link{
+.toolbar-landscape{
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #00bcd4;
+}
+
+.toolbar-landscape__section{
+	color: #fff;
+	clear: both;
+	padding: 10px 15px;
+}
+
+
+/* Dialog */
+.toolbar-container__dialog-link{
 	-webkit-border-radius: 2px;
 	-webkit-background-clip: padding-box;
 	-moz-border-radius: 2px;

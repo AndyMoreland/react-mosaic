@@ -17,8 +17,9 @@ var React = require('react'),
             };
         },
         componentDidMount:function(){
+            var isVertical = window.innerWidth / window.innerHeight < 1;
             this.setState({
-                edge:this.getDOMNode().clientWidth
+                edge: (isVertical) ? window.innerWidth : window.innerHeight
             });
             PaneStore.on('change',this._onPaneChange);
             PaneStore.on('done',this._onDone);
