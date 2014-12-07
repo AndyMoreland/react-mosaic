@@ -1,9 +1,7 @@
 /** @jsx React.DOM */
 'use strict';
 var React = require('react'),
-    ChunksActions = require('../actions/ChunksActions'),
-    Menu = require('./Menu'),
-    Header = require('./Header'),
+    Toolbar = require('./Toolbar'),
     Pane = require('./Pane'),
     App = React.createClass({
         componentWillMount : function(){
@@ -11,9 +9,8 @@ var React = require('react'),
         },
         render : function(){
             return <div className="app">
-                <Menu />
-                <Header />
                 <Pane />
+                <Toolbar />
             </div>;
         }
     });

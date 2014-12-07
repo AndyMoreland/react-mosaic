@@ -1,0 +1,46 @@
+.toolbar{
+
+}
+
+.toolbar__section-wrap{
+    color: #fff;
+    text-align: center;
+}
+
+.toolbar__section{
+    display: inline-block;
+}
+
+.toolbar__dialog{
+
+}
+
+.toolbar__dialog-link{
+	-webkit-border-radius: 2px;
+	-webkit-background-clip: padding-box;
+	-moz-border-radius: 2px;
+	-moz-background-clip: padding;
+	border-radius: 2px;
+	background-clip: padding-box;
+	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+	font-size: 14px;
+	line-height: 20px;
+	padding-top: 6px;
+	margin-bottom: 15px;
+	letter-spacing: 0;
+	text-transform: uppercase;
+	font-weight: 500;
+	color: rgba(0, 0, 0, 0.87);
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	display: block;
+	height: 36px;
+	min-width: 88px;
+	cursor: pointer;
+	text-align: center;
+	clear: both;
+}

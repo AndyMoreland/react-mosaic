@@ -12,6 +12,18 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
         },
         setMatrix : function(matrix) {
             AppDispatcher.dispatch({ action : PaneConstants.ACTION_SET_MATRIX, matrix : matrix });
+        },
+        mount : function(coords){
+            AppDispatcher.dispatch({ action : PaneConstants.ACTION_MOUNT, coords : coords });
+        },
+        unmount : function(coords){
+            AppDispatcher.dispatch({ action : PaneConstants.ACTION_UNMOUNT, coords : coords });
+        },
+        shuffle : function() {
+            AppDispatcher.dispatch({ action : PaneConstants.ACTION_SHUFFLE, depth : PaneConstants.SHUFFLE_DEPTH });
+        },
+        crawl : function(coords){
+            AppDispatcher.dispatch({ action : PaneConstants.ACTION_CRAWL, coords : coords });
         }
     };
 

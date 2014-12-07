@@ -2,11 +2,8 @@
 'use strict';
 var React = require('react'),
     PaneActions = require('../actions/PaneActions'),
-    ChunksActions = require('../actions/ChunksActions'),
     PaneStore = require('../stores/PaneStore'),
-    ChunksStore = require('../stores/ChunksStore'),
     PaneConstants = require('../constants/PaneConstants'),
-    ChunksConstants = require('../constants/ChunksConstants'),
     Chunk = require('./Chunk'),
     Pane = React.createClass({
         getInitialState:function()
@@ -24,32 +21,42 @@ var React = require('react'),
                 edge:this.getDOMNode().clientWidth
             });
             PaneStore.on('change',this._onPaneChange);
-            ChunksStore.on('done',this._onDone);
+            PaneStore.on('done',this._onDone);
         },
         componentWillUnmount: function() {
             PaneStore.removeListener('change',this._onPaneChange);
-            ChunksStore.removeListener('done',this._onDone);
+            PaneStore.removeListener('done',this._onDone);
         },
         render: function()
         {
             var chunks = [];
+
             for (var x = 0; x < this.state.matrix[0]; x++)
             {
                 for (var y = 0; y < this.state.matrix[1]; y++)
                 {
-                    if (!(x===this.state.startHole[0] && y===this.state.startHole[1])){
+                    if (!(x===this.state.startHole[0] && y===this.state.startHole[1]))
+                    {
                         chunks.push({ x:x, y:y });
                     }
                 }
             }
 
-            return (<div className='pane' style={this.style()}>
+            return (<div className='pane' style={this._style()}>
                 {chunks.map(function(chunk){
-                    return <Chunk ref={'chunk'+chunk.x+chunk.y} key={'chunk-'+chunk.x+chunk.y} point={[chunk.x,chunk.y]} isGame={this.state.isGame} image={this.state.image} matrix={this.state.matrix} />;
+                    return <Chunk
+                        key={'chunk_'+chunk.x+chunk.y} 
+                        point={[chunk.x,chunk.y]} 
+                        isGame={this.state.isGame} 
+                        image={this.state.image} 
+                        matrix={this.state.matrix}
+                        paneEdge={this.state.edge}/>;
                 },this)}
             </div>);
         },
-        style : function() {
+
+
+        _style : function() {
             return {
                 width : this.state.edge + 'px',
                 height : this.state.edge + 'px',
@@ -62,7 +69,7 @@ var React = require('react'),
         _onPaneChange : function(){
             this.setState({
                 image:PaneStore.getImageData(),
-                matrix:PaneStore.getMatrixData(),
+                matrix: PaneStore.getMatrixData(),
                 hole:PaneConstants.START_HOLE,
                 isGame: PaneStore.isGame()
             });
@@ -72,7 +79,7 @@ var React = require('react'),
             setTimeout(function(){
                 _this.setState({ isGame : false });
                 console.info('YOU WIN!'); // todo
-            },ChunksConstants.ANIMATION_DURATION);
+            },PaneConstants.ANIMATION_DURATION);
 
         }
 });

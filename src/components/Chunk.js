@@ -2,19 +2,18 @@
 'use strict';
 var React = require('react'),
     ReactWithAddons = require('../../node_modules/react/addons'),
-    ChunksActions = require('../actions/ChunksActions'),
-    ChunksStore = require('../stores/ChunksStore');
+    PaneActions = require('../actions/PaneActions'),
+    PaneStore = require('../stores/PaneStore');
 
 
 var Chunk = React.createClass({
     componentWillMount : function() {
         var chunk = {};
-        ChunksActions.mount(this.props.point);
-        chunk = ChunksStore.getChunk(this.props.point);
+        PaneActions.mount(this.props.point);
+        chunk = PaneStore.getChunk(this.props.point);
         this.setState({
             homePoint : this.props.point,
             image : this.props.image,
-            matrix : this.props.matrix,
             point : chunk.point,
             isCrawable : chunk.isCrawable,
             width: 100 / this.props.matrix[0], // %
@@ -24,13 +23,20 @@ var Chunk = React.createClass({
     },
     componentDidMount: function(){
         this.setState({
-            edgePx: this.getDOMNode().clientWidth
+            edgePx : this.props.paneEdge / this.props.matrix[0]
         });
-        ChunksStore.on('change',this._onChunksChange);
+        PaneStore.on('change',this._onPaneChange);
     },
     componentWillUnmount: function() {
-        ChunksActions.unMount(this.state.homePoint);
-        ChunksStore.removeListener('change',this._onChunksChange); // wanna action ???
+        PaneActions.unmount(this.props.point);
+        PaneStore.removeListener('change',this._onPaneChange); // wanna action ???
+    },
+    componentWillReceiveProps: function(nextProps) {
+        this.setState({
+            width: 100 / nextProps.matrix[0], // %
+            height: 100 / nextProps.matrix[1], // %
+            edgePx : nextProps.paneEdge / nextProps.matrix[0]
+        });
     },
     render:function(){
         var classes = ReactWithAddons.addons.classSet({
@@ -38,11 +44,11 @@ var Chunk = React.createClass({
                 'pane__chunk_crawable':this.state.isCrawable && this.props.isGame
             }),
             rightBorderStyles = {
-                display : (this.props.isGame && (this.state.point[0] < this.state.matrix[0] - 1)) ? 'block' : 'none',
+                display : (this.props.isGame && (this.state.point[0] < this.props.matrix[0] - 1)) ? 'block' : 'none',
                 height: this.state.edgePx + 'px'
             },
             bottomBorderStyles = {
-                display : (this.props.isGame && (this.state.point[1] < this.state.matrix[1] - 1)) ? 'block' : 'none'
+                display : (this.props.isGame && (this.state.point[1] < this.props.matrix[1] - 1)) ? 'block' : 'none'
             };
 
         return (<div className={classes} style={this.style()} onClick={this.clickHandler}>
@@ -51,8 +57,8 @@ var Chunk = React.createClass({
         </div>);
     },
 
-    _onChunksChange : function(){
-        var chunk = ChunksStore.getChunk(this.state.homePoint);
+    _onPaneChange : function(){
+        var chunk = PaneStore.getChunk(this.state.homePoint);
         if (chunk) {
             this.setState({
                 point : chunk.point,
@@ -66,7 +72,7 @@ var Chunk = React.createClass({
             backgroundImage : 'url(' + this.state.image.src + ')',
             backgroundRepeat : 'no-repeat',
             backgroundPosition : '-' + this.state.edgePx * this.state.homePoint[0] + 'px' + ' -' + this.state.edgePx * this.state.homePoint[1] + 'px',
-            backgroundSize : 100 * this.state.matrix[0] + '%',
+            backgroundSize : 100 * this.props.matrix[0] + '%',
             width : this.state.width + '%',
             height : this.state.height + '%',
             left : this.state.width * this.state.point[0] + '%',
@@ -76,7 +82,7 @@ var Chunk = React.createClass({
     clickHandler:function(){
         if (this.state.isCrawable && this.props.isGame)
         {
-            ChunksActions.crawl(this.state.homePoint);
+            PaneActions.crawl(this.state.homePoint);
         }
     }
 });
