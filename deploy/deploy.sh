@@ -11,7 +11,7 @@ if [ $correctKey = $inputKey ]
 		cd ../
 		git pull origin master:master --quiet --progress
 		npm install
-		bower update --allow-root
+		bower update
 		npm run build
 		exit 0
 	else
