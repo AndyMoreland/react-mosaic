@@ -8,6 +8,7 @@ inputKey=$1
 
 if [ $correctKey = $inputKey ]
 	then
+		cd ../
 		git pull origin master:master --quiet --progress
 		npm install
 		bower update --allow-root
