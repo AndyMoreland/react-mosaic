@@ -8,10 +8,10 @@ inputKey=$1
 
 if [ $correctKey = $inputKey ]
 	then
-		cd ../ &&
+		cd ../
 
 		echo 'git pull'
-		echo git pull origin master:master --quiet
+		git pull origin master:master --quiet
 		
 		echo 'installing node packages'
 		npm install
