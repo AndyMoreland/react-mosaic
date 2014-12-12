@@ -17,9 +17,10 @@ if [ $correctKey = $inputKey ]
 		#npm run css 
 		#npm run transform-js 
 		#npm run browserify
-
+		
+		echo 'Successful deploy'
 		exit 0
 	else
-		echo 'Wrong deploy key '
+		echo 'Wrong deploy key'
 		exit 1
 	fi
