@@ -2,7 +2,7 @@
 #
 # Deploy script
 #
-
+git pull
 correctKey=$(cat deployKey.txt)
 inputKey=$1
 
