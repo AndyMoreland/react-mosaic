@@ -1,8 +1,6 @@
 <?php
 $deployKey = isset($_GET['key']) ? $_GET['key'] : '';
-echo 'deploy '.$deployKey;
-$output1 =  shell_exec('whoami');
-echo "<pre>".$output1."</pre>";
-
-$output = shell_exec('sh deploy.sh '.$deployKey);
+$command = 'sh deploy.sh '.$deployKey;
+echo 'command: '.$command;
+$output = shell_exec($command);
 echo "<pre>$output</pre>";
