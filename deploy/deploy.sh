@@ -8,7 +8,7 @@ inputKey=$1
 
 if [ $correctKey = $inputKey ]
 	then
-		cd ../
+		cd ../ &&
 		git pull origin master:master --quiet
 		#npm install
 		#bower update
