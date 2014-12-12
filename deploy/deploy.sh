@@ -11,8 +11,6 @@ if [ $correctKey = $inputKey ]
 		cd ../
 		git pull origin master:master --quiet --progress
 		npm install
-		bower update
-		npm run build
 		exit 0
 	else
 		echo 'Wrong deploy key '
