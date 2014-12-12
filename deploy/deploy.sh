@@ -10,14 +10,9 @@ if [ $correctKey = $inputKey ]
 	then
 		cd ../ &&
 		git pull origin master:master --quiet
-		#npm install
-		#bower update
-		# npm run build:
-		#ulimit -n 10000 
-		#npm run css 
-		#npm run transform-js 
-		#npm run browserify
-		
+		npm install
+		bower update --force-latest
+		npm run production-build
 		echo 'Successful deploy'
 		exit 0
 	else
