@@ -1,4 +1,5 @@
 .idea
+npm-debug.log
 /_500px
 /bower_components
 /dist

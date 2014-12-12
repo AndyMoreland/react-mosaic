@@ -14,7 +14,7 @@
     "browserify": "browserify -t reactify -o dist/bundle.js dist/app.js -d",
     "develop": "watch 'npm run build' src/ --wait=0",
     "build": "ulimit -n 10000 && npm run css && npm run transform-js && npm run browserify",
-    "production-build": "npm run css && npm run transform-js && npm run browserify",
+    "production-build": "npm run css && npm run transform-js && npm run browserify"
   },
   "repository": {
     "type": "git",
