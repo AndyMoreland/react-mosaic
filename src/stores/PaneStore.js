@@ -2,9 +2,12 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
     PaneConstants = require('../constants/PaneConstants'),
     EventEmitter = require('events').EventEmitter,
     merge = require('react/lib/merge'),
-    data = {
+    data = 
+    {
         image : {
-            src : 'img/covers/snop.jpg'
+            src : 'img/covers/rood.jpg',
+            width : 674,
+            height : 960
         },
         chunks : [],
         hole:PaneConstants.START_HOLE,

@@ -6,31 +6,68 @@ var React = require('react'),
     PaneConstants = require('../constants/PaneConstants'),
     Chunk = require('./Chunk'),
     Pane = React.createClass({
-        getInitialState:function()
+        getInitialState: function()
         {
+            var storeImage = PaneStore.getImageData(),
+                isVerticalImage = storeImage.height > storeImage.width;
+
+            storeImage.topOffset = 0;
+            storeImage.leftOffset = 0;
+
             return {
-                isGame : false,
-                chunks : [],
-                image:PaneStore.getImageData(),
-                matrix:PaneStore.getMatrixData(),
-                startHole:PaneConstants.START_HOLE
+                isGame: false,
+                chunks: [],
+                image: storeImage,
+                matrix: PaneStore.getMatrixData(),
+                startHole: PaneConstants.START_HOLE
             };
         },
-        componentDidMount:function(){
-            var isVertical = window.innerWidth / window.innerHeight < 1;
+
+        componentDidMount: function()
+        {
+            var isVerticalPage = window.innerWidth / window.innerHeight < 1,
+                edge = (isVerticalPage) ? window.innerWidth : window.innerHeight, 
+                image = this.state.image,
+                imageKoef = image.height / image.width,
+                isVerticalImage = imageKoef > 1;
+
+            if (isVerticalImage) 
+            {
+                image.scaledWidth = edge;
+                image.scaledHeight = image.scaledWidth * imageKoef;
+                image.topOffset = (image.scaledHeight - edge) / 2;
+            } else 
+            {
+                image.scaledHeight = edge;
+                image.scaledWidth = image.scaledHeight / imageKoef;
+                image.leftOffset = (image.scaledWidth - edge) / 2;
+            }
+
             this.setState({
-                edge: (isVertical) ? window.innerWidth : window.innerHeight
+                edge: edge,
+                image: image
             });
+
             PaneStore.on('change',this._onPaneChange);
             PaneStore.on('done',this._onDone);
         },
-        componentWillUnmount: function() {
+
+        componentWillUnmount: function() 
+        {
             PaneStore.removeListener('change',this._onPaneChange);
             PaneStore.removeListener('done',this._onDone);
         },
+
         render: function()
         {
-            var chunks = [];
+            var chunks = [],
+                chunkImage = {
+                    src: this.state.image.src,
+                    scaledWidth: this.state.image.scaledWidth,
+                    scaledHeight: this.state.image.scaledHeight,
+                    topOffset: this.state.image.topOffset,
+                    leftOffset: this.state.image.leftOffset
+                };
 
             for (var x = 0; x < this.state.matrix[0]; x++)
             {
@@ -49,7 +86,7 @@ var React = require('react'),
                         key={'chunk_'+chunk.x+chunk.y} 
                         point={[chunk.x,chunk.y]} 
                         isGame={this.state.isGame} 
-                        image={this.state.image} 
+                        image={chunkImage} 
                         matrix={this.state.matrix}
                         paneEdge={this.state.edge}/>;
                 },this)}
@@ -57,17 +94,21 @@ var React = require('react'),
         },
 
 
-        _style : function() {
+        _style : function() 
+        {
             return {
                 width : this.state.edge + 'px',
                 height : this.state.edge + 'px',
-                backgroundPosition : '0 0',
+                backgroundPositionX : '-' + this.state.image.leftOffset,
+                backgroundPositionY : '-' + this.state.image.topOffset,
                 backgroundRepeat : 'no-repeat',
                 backgroundImage : (!this.state.isGame) ? 'url(' + this.state.image.src + ')' : 'none',
-                backgroundSize : '100%'
+                backgroundSize : 'cover'
             }
         },
-        _onPaneChange : function(){
+
+        _onPaneChange : function()
+        {
             this.setState({
                 image:PaneStore.getImageData(),
                 matrix: PaneStore.getMatrixData(),
@@ -75,7 +116,9 @@ var React = require('react'),
                 isGame: PaneStore.isGame()
             });
         },
-        _onDone : function(){
+
+        _onDone : function()
+        {
             var _this = this;
             setTimeout(function(){
                 _this.setState({ isGame : false });
