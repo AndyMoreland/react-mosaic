@@ -98,13 +98,12 @@ var Chunk = React.createClass({
     {
         var posX = this.state.edgePx * this.state.homePoint[0] + this.props.image.leftOffset,
             posY = this.state.edgePx * this.state.homePoint[1] + this.props.image.topOffset;
-            
+
         return {
             backgroundClip: 'border-box',
             backgroundImage : 'url(' + this.state.image.src + ')',
             backgroundRepeat : 'no-repeat',
-            backgroundPositionX : '-' + posX + 'px',
-            backgroundPositionY : '-' + posY + 'px',
+            backgroundPosition : '-' + posX + 'px ' + '-' + posY + 'px',
             backgroundSize : this.props.image.scaledWidth + 'px ' + this.props.image.scaledHeight + 'px',
             width : this.state.width + '%',
             height : this.state.height + '%',

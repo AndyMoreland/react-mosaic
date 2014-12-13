@@ -99,8 +99,7 @@ var React = require('react'),
             return {
                 width : this.state.edge + 'px',
                 height : this.state.edge + 'px',
-                backgroundPositionX : '-' + this.state.image.leftOffset,
-                backgroundPositionY : '-' + this.state.image.topOffset,
+                backgroundPosition : '-' + this.state.image.leftOffset + 'px ' + '-' + this.state.image.topOffset + 'px',
                 backgroundRepeat : 'no-repeat',
                 backgroundImage : (!this.state.isGame) ? 'url(' + this.state.image.src + ')' : 'none',
                 backgroundSize : 'cover'
