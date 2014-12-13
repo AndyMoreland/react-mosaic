@@ -11,7 +11,8 @@ if [ $correctKey = $inputKey ]
 		cd ../
 
 		echo 'git pull'
-		git pull
+		commandGit = 'git pull'
+		echo commandGit
 		
 		echo 'installing node packages'
 		npm install
