@@ -4,28 +4,24 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
     merge = require('react/lib/merge'),
     data = 
     {
-        image : {
-            src : 'img/covers/rood.jpg',
-            width : 674,
-            height : 960
-        },
-        chunks : [],
-        hole:PaneConstants.START_HOLE,
-        matrix : [4,4],
-        isGame : false
+        image: {}, 
+        chunks: [],
+        hole: PaneConstants.START_HOLE,
+        matrix: [4,4],
+        isGame: false
     };
 
 var PaneStore = merge(EventEmitter.prototype,{
-    getImageData : function(){
+    getImage: function() {
         return data.image;
     },
-    getMatrixData : function() {
+    getMatrixData: function() {
         return data.matrix;
     },
-    isGame:function(){
+    isGame: function(){
         return data.isGame;
     },
-    getChunk : function(coords){
+    getChunk: function(coords){
         return data.chunks[coords[0]][coords[1]];
     }
 });

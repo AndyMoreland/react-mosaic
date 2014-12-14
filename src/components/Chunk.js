@@ -30,7 +30,6 @@ var Chunk = React.createClass({
         chunk = PaneStore.getChunk(this.props.point);
         this.setState({
             homePoint : this.props.point,
-            image : this.props.image,
             point : chunk.point,
             isCrawable : chunk.isCrawable,
             width: 100 / this.props.matrix[0], // %
@@ -101,7 +100,7 @@ var Chunk = React.createClass({
 
         return {
             backgroundClip: 'border-box',
-            backgroundImage : 'url(' + this.state.image.src + ')',
+            backgroundImage : 'url(' + this.props.image.src + ')',
             backgroundRepeat : 'no-repeat',
             backgroundPosition : '-' + posX + 'px ' + '-' + posY + 'px',
             backgroundSize : this.props.image.scaledWidth + 'px ' + this.props.image.scaledHeight + 'px',

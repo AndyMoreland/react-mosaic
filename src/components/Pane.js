@@ -5,19 +5,20 @@ var React = require('react'),
     PaneStore = require('../stores/PaneStore'),
     PaneConstants = require('../constants/PaneConstants'),
     Chunk = require('./Chunk'),
+    localImageProvider = require('../imageProviders/localImageProvider'),
     Pane = React.createClass({
         getInitialState: function()
         {
-            var storeImage = PaneStore.getImageData(),
-                isVerticalImage = storeImage.height > storeImage.width;
+            var image = localImageProvider.getDefaultImage(),
+                isVerticalImage = image.height > image.width;
 
-            storeImage.topOffset = 0;
-            storeImage.leftOffset = 0;
+            image.topOffset = 0;
+            image.leftOffset = 0;
 
             return {
                 isGame: false,
                 chunks: [],
-                image: storeImage,
+                image: image,
                 matrix: PaneStore.getMatrixData(),
                 startHole: PaneConstants.START_HOLE
             };
@@ -26,26 +27,11 @@ var React = require('react'),
         componentDidMount: function()
         {
             var isVerticalPage = window.innerWidth / window.innerHeight < 1,
-                edge = (isVerticalPage) ? window.innerWidth : window.innerHeight, 
-                image = this.state.image,
-                imageKoef = image.height / image.width,
-                isVerticalImage = imageKoef > 1;
-
-            if (isVerticalImage) 
-            {
-                image.scaledWidth = edge;
-                image.scaledHeight = image.scaledWidth * imageKoef;
-                image.topOffset = (image.scaledHeight - edge) / 2;
-            } else 
-            {
-                image.scaledHeight = edge;
-                image.scaledWidth = image.scaledHeight / imageKoef;
-                image.leftOffset = (image.scaledWidth - edge) / 2;
-            }
+                edge = (isVerticalPage) ? window.innerWidth : window.innerHeight;
 
             this.setState({
                 edge: edge,
-                image: image
+                image: this._getImageSpecs(this.state.image,edge)
             });
 
             PaneStore.on('change',this._onPaneChange);
@@ -94,7 +80,7 @@ var React = require('react'),
         },
 
 
-        _style : function() 
+        _style: function() 
         {
             return {
                 width : this.state.edge + 'px',
@@ -106,17 +92,19 @@ var React = require('react'),
             }
         },
 
-        _onPaneChange : function()
+        _onPaneChange: function()
         {
+            var image = this._getImageSpecs(PaneStore.getImage(),this.state.edge);
+
             this.setState({
-                image:PaneStore.getImageData(),
+                image: image,
                 matrix: PaneStore.getMatrixData(),
                 hole:PaneConstants.START_HOLE,
                 isGame: PaneStore.isGame()
             });
         },
 
-        _onDone : function()
+        _onDone: function()
         {
             var _this = this;
             setTimeout(function(){
@@ -124,6 +112,28 @@ var React = require('react'),
                 console.info('YOU WIN!'); // todo
             },PaneConstants.ANIMATION_DURATION);
 
+        },
+
+        _getImageSpecs: function(image,edge)
+        {
+            var imageKoef = image.height / image.width,
+                isVerticalImage = imageKoef > 1;
+
+            if (isVerticalImage) 
+            {
+                image.scaledWidth = edge;
+                image.scaledHeight = image.scaledWidth * imageKoef;
+                image.topOffset = (image.scaledHeight - edge) / 2;
+                image.leftOffset = 0;
+            } else 
+            {
+                image.scaledHeight = edge;
+                image.scaledWidth = image.scaledHeight / imageKoef;
+                image.topOffset = 0;
+                image.leftOffset = (image.scaledWidth - edge) / 2;
+            }
+
+            return image;
         }
 });
 

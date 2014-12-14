@@ -6,6 +6,7 @@ var React = require('react'),
     PaneActions = require('../actions/PaneActions'),
     PaneStore = require('../stores/PaneStore'),
     mui = require('material-ui'),
+    localImageProvider = require('../imageProviders/localImageProvider'),
     DropDownMenu = mui.DropDownMenu,
     Dialog = mui.Dialog,
     PaperButton = mui.PaperButton,
@@ -72,7 +73,7 @@ var React = require('react'),
             this.refs.matrixDialog.show();
         },
         _onImageMouseDown : function(){
-
+            localImageProvider.touch();
         },
         _onPlayMouseDown : function(){
             if (this.state.isGame){
