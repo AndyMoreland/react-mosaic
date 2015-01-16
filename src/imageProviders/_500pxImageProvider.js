@@ -5,7 +5,8 @@ var inherit = require('../../lib/js/inherit'),
 	_500pxConstants = require('../constants/_500pxConstants'),
 
 	photos = [],
-	pageSize = 5,
+	currentCategory = _500pxConstants.INIT_CATEGORY,
+	pageSize = 20,
 	imageSize = 4,
 	page = 1,
 	index = 0,
@@ -13,55 +14,69 @@ var inherit = require('../../lib/js/inherit'),
 
 
 function _500pxImageProvider () {
-  _500px.init({
-    sdk_key: _500pxConstants.JAVASCRIPT_SDK_KEY
-  });	
+	_500px.init({
+		sdk_key: _500pxConstants.JAVASCRIPT_SDK_KEY
+	});	
 
-  loadPhotos(1);
+	loadPhotos(1,currentCategory,function(photos){
+		index++;
+		chargeImage(photos[0]);
+	});
 };
 
 inherit(_500pxImageProvider,ImageProvider);
 
-function loadPhotos(page, callback){
+function loadPhotos(page, category, callback){
+	var only = category || _500pxConstants.INIT_CATEGORY;
+
 	_500px.api('/photos', { 
-		feature: 'popular',
+		feature: 'Popular',
+		only: only,
 		rpp: pageSize,
 		image_size: imageSize,
 		page: page 
 	}, function (response) {
-		_500pxImageProvider.uber.stopLoading();
+		//_500pxImageProvider.uber.stopLoading();
 		isLoaded = true;
 		photos = response.data.photos;
     	if (typeof callback === 'function') callback.call(null,photos);
 	});
 }
 
-_500pxImageProvider.prototype.getDefaultImage = function(){
+function chargeImage(photo){
+	var image = {};
+	image.src = photo.image_url;
+	image.width = photo.width;
+	image.height = photo.height;		
+	_500pxImageProvider.uber.chargeImage(image);
+}
 
-	//return images[this.index];
+_500pxImageProvider.prototype.getDefaultImage = function(){
+	return {};
 };
 
-_500pxImageProvider.prototype.touch = function(){
+_500pxImageProvider.prototype.selectCategory = function(category){
+	currentCategory = category;
+	loadPhotos(1,currentCategory,function(photos){
+		index++;
+		chargeImage(photos[0]);
+	});
+};
+
+_500pxImageProvider.prototype.next = function(){
 	var image = {};
 
 	if (index >= pageSize) 
 	{
-		this.startLoading();
 		index = 0;
 		page++;
-		loadPhotos(page,function(photos){
-			image.src = photos[index].image_url;
-			image.width = photos[index].width;
-			image.height = photos[index].height;		
-			_500pxImageProvider.uber.chargeImage(image);
+		loadPhotos(page,currentCategory,function(photos){
+			chargeImage(photos[0]);
 			index++;
 		});
 	} else 
 	{
-		image.src = photos[index].image_url;
-		image.width = photos[index].width;
-		image.height = photos[index].height;
-		this.chargeImage(image);	
+		chargeImage(photos[index])	
 		index++;
 	}	
 }

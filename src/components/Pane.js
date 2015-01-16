@@ -5,22 +5,20 @@ var React = require('react'),
     PaneStore = require('../stores/PaneStore'),
     PaneConstants = require('../constants/PaneConstants'),
     Chunk = require('./Chunk'),
-    localImageProvider = require('../imageProviders/localImageProvider'),
+    mui = require('material-ui'),
+    Icon = mui.Icon,
     Pane = React.createClass({
         getInitialState: function()
         {
-            var image = localImageProvider.getDefaultImage(),
-                isVerticalImage = image.height > image.width;
-
-            image.topOffset = 0;
-            image.leftOffset = 0;
-
             return {
                 isGame: false,
                 chunks: [],
-                image: image,
+                image: {},
+                nextImage: {},
                 matrix: PaneStore.getMatrixData(),
-                startHole: PaneConstants.START_HOLE
+                startHole: PaneConstants.START_HOLE,
+                hole: PaneConstants.START_HOLE,
+                isLoading: true
             };
         },
 
@@ -30,9 +28,10 @@ var React = require('react'),
                 edge = (isVerticalPage) ? window.innerWidth : window.innerHeight;
 
             this.setState({
-                edge: edge,
-                image: this._getImageSpecs(this.state.image,edge)
+                edge: edge
             });
+
+            this.refs.paneImgEl.getDOMNode().addEventListener('load',this._imgLoaded);
 
             PaneStore.on('change',this._onPaneChange);
             PaneStore.on('done',this._onDone);
@@ -40,6 +39,7 @@ var React = require('react'),
 
         componentWillUnmount: function() 
         {
+            this.refs.paneImgEl.removeEventListener('load',this._imgLoaded);
             PaneStore.removeListener('change',this._onPaneChange);
             PaneStore.removeListener('done',this._onDone);
         },
@@ -76,6 +76,10 @@ var React = require('react'),
                         matrix={this.state.matrix}
                         paneEdge={this.state.edge}/>;
                 },this)}
+                <div ref="paneLoading" className='pane__loading' style={this._loadingStyle()}>
+                    <img className='pane__loading-img' style={this._loadingImgStyle()} src='img/loading.gif' />
+                </div>
+                <div className="pane__img-loader"><img ref="paneImgEl" src={this.state.nextImage.src} /></div>
             </div>);
         },
 
@@ -87,21 +91,47 @@ var React = require('react'),
                 height : this.state.edge + 'px',
                 backgroundPosition : '-' + this.state.image.leftOffset + 'px ' + '-' + this.state.image.topOffset + 'px',
                 backgroundRepeat : 'no-repeat',
-                backgroundImage : (!this.state.isGame) ? 'url(' + this.state.image.src + ')' : 'none',
+                backgroundImage : (!this.state.isGame && this.state.image.src) ? 'url(' + this.state.image.src + ')' : 'none',
                 backgroundSize : 'cover'
             }
         },
 
+        _loadingStyle: function()
+        {
+            return this.state.isLoading ? {display: 'block'} : {display: 'none'};
+        },
+
+        _loadingImgStyle: function()
+        {
+            var style = {};
+            style.left = ((this.state.edge - PaneConstants.LOADING_EDGE) / 2) + 'px';
+            style.top = ((this.state.edge - PaneConstants.LOADING_EDGE) / 2) + 'px';
+            return style;
+        },
+
         _onPaneChange: function()
         {
-            var image = this._getImageSpecs(PaneStore.getImage(),this.state.edge);
+            var image = this._getImageSpecs(PaneStore.getImage(),this.state.edge),
+                isLoading = (this.state.image.src != image.src) || PaneStore.isLoading(); 
 
             this.setState({
-                image: image,
+                nextImage: image,
                 matrix: PaneStore.getMatrixData(),
-                hole:PaneConstants.START_HOLE,
-                isGame: PaneStore.isGame()
+                isGame: PaneStore.isGame(),
+                isLoading: isLoading,
+                hole: PaneStore.getHole()
             });
+        },
+
+        _imgLoaded: function()
+        {
+            if (this.state.isLoading) 
+            {
+                this.setState({
+                    image: this.state.nextImage,
+                    isLoading: false
+                });
+            } 
         },
 
         _onDone: function()

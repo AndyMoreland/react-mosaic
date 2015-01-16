@@ -99,6 +99,7 @@ var Chunk = React.createClass({
             posY = this.state.edgePx * this.state.homePoint[1] + this.props.image.topOffset;
 
         return {
+            display: (this.props.isGame) ? 'block' : 'none',
             backgroundClip: 'border-box',
             backgroundImage : 'url(' + this.props.image.src + ')',
             backgroundRepeat : 'no-repeat',

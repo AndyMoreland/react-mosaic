@@ -18,3 +18,8 @@ body {
 .mui-icon{
 	font-size: 50px;
 }
+
+.mui-paper-button{
+	left: 0 !important;
+	margin-right: 10px;
+}

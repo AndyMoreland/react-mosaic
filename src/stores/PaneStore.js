@@ -1,14 +1,16 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher'),
     PaneConstants = require('../constants/PaneConstants'),
+    localImageProvider = require('../imageProviders/localImageProvider'),
     EventEmitter = require('events').EventEmitter,
     merge = require('react/lib/merge'),
     data = 
     {
-        image: {}, 
+        image: localImageProvider.getDefaultImage(), 
         chunks: [],
         hole: PaneConstants.START_HOLE,
         matrix: [4,4],
-        isGame: false
+        isGame: false,
+        isLoading: false
     };
 
 var PaneStore = merge(EventEmitter.prototype,{
@@ -23,6 +25,12 @@ var PaneStore = merge(EventEmitter.prototype,{
     },
     getChunk: function(coords){
         return data.chunks[coords[0]][coords[1]];
+    },
+    isLoading: function(){
+        return data.isLoading;
+    },
+    getHole: function(){
+        return data.hole;
     }
 });
 
@@ -60,7 +68,7 @@ function shuffle(){
         rndIndex = null,
         hotChunk = null,
         intervalId;
-console.info(data.chunks);
+
     intervalId = setInterval(function(){
         crawableChunks = [];
         iterateChunks(function(x,y){
@@ -178,6 +186,19 @@ AppDispatcher.register(function(payload){
             break;
         case PaneConstants.ACTION_GAME_ROLLBACK:
             rollback();
+            break;
+        case PaneConstants.ACTION_START_LOADING:
+            data.isLoading = true;
+            break;
+        case PaneConstants.ACTION_STOP_LOADING:
+            data.isLoading = false;
+            break;
+        case PaneConstants.ACTION_SPY_START:
+            data.isGame = false;
+            setTimeout(function(){
+                data.isGame = true;
+                PaneStore.emit('change');
+            },PaneConstants.SPY_DURATION);
             break;
         default:
             return true;

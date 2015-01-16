@@ -50,6 +50,16 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
         crawl : function(coords)
         {
             AppDispatcher.dispatch({ action : PaneConstants.ACTION_CRAWL, coords : coords });
+        },
+
+        spyStart : function()
+        {
+            AppDispatcher.dispatch({ action : PaneConstants.ACTION_SPY_START });
+        },
+
+        spyStop : function()
+        {
+            AppDispatcher.dispatch({ action : PaneConstants.ACTION_SPY_STOP });
         }
     };
 
