@@ -2,6 +2,7 @@ var PaneConstants =
 {
     START_HOLE: [0,0],
     ANIMATION_DURATION: 100, // ms
+    CLICK_DELAY: 350, //ms
     SHUFFLE_DEPTH: 6, //60
     LOADING_EDGE: 40, //px
     SPY_DURATION: 3000, // ms
