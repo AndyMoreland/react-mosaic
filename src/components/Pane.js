@@ -12,6 +12,7 @@ var React = require('react'),
         {
             return {
                 isGame: false,
+                isSpying: false,
                 chunks: [],
                 image: {},
                 nextImage: {},
@@ -71,7 +72,8 @@ var React = require('react'),
                     return <Chunk
                         key={'chunk_'+chunk.x+chunk.y} 
                         point={[chunk.x,chunk.y]} 
-                        isGame={this.state.isGame} 
+                        isGame={this.state.isGame}
+                        isSpying={this.state.isSpying} 
                         image={chunkImage} 
                         matrix={this.state.matrix}
                         paneEdge={this.state.edge}/>;
@@ -91,7 +93,7 @@ var React = require('react'),
                 height : this.state.edge + 'px',
                 backgroundPosition : '-' + this.state.image.leftOffset + 'px ' + '-' + this.state.image.topOffset + 'px',
                 backgroundRepeat : 'no-repeat',
-                backgroundImage : (!this.state.isGame && this.state.image.src) ? 'url(' + this.state.image.src + ')' : 'none',
+                backgroundImage : ((!this.state.isGame || this.state.isSpying) && this.state.image.src) ? 'url(' + this.state.image.src + ')' : 'none',
                 backgroundSize : 'cover'
             }
         },
@@ -118,6 +120,7 @@ var React = require('react'),
                 nextImage: image,
                 matrix: PaneStore.getMatrixData(),
                 isGame: PaneStore.isGame(),
+                isSpying: PaneStore.isSpying(),
                 isLoading: isLoading,
                 hole: PaneStore.getHole()
             });

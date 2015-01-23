@@ -18,6 +18,7 @@ var data = {
     {
         point: React.PropTypes.arrayOf(React.PropTypes.number), 
         isGame: React.PropTypes.bool,
+        isSpying: React.PropTypes.bool,
         image: React.PropTypes.shape({
             src: React.PropTypes.string,
             koef: React.PropTypes.number,
@@ -36,9 +37,9 @@ var data = {
         PaneActions.mount(this.props.point);
         chunk = PaneStore.getChunk(this.props.point);
         this.setState({
-            homePoint : this.props.point,
-            point : chunk.point,
-            isCrawable : chunk.isCrawable,
+            homePoint: this.props.point,
+            point: chunk.point,
+            isCrawable: chunk.isCrawable,
             width: this.props.paneEdge / this.props.matrix[0], // px 100 / this.props.matrix[0], // %
             height: this.props.paneEdge / this.props.matrix[1], // px 100 / this.props.matrix[1], // %
             edgePx: 0,
@@ -50,7 +51,7 @@ var data = {
     componentDidMount: function()
     {
         this.setState({
-            edgePx : this.props.paneEdge / this.props.matrix[0]
+            edgePx: this.props.paneEdge / this.props.matrix[0]
         });
         PaneStore.on('change',this._onPaneChange);
     },
@@ -66,7 +67,7 @@ var data = {
         this.setState({
             width: this.props.paneEdge / this.props.matrix[0], // 100 / nextProps.matrix[0], // %
             height: this.props.paneEdge / this.props.matrix[1], // 100 / nextProps.matrix[1], // %
-            edgePx : nextProps.paneEdge / nextProps.matrix[0]
+            edgePx: nextProps.paneEdge / nextProps.matrix[0]
         });
     },
 
@@ -112,7 +113,7 @@ var data = {
             posY = this.state.edgePx * this.state.homePoint[1] + this.props.image.topOffset;
 
         return {
-            display: (this.props.isGame) ? 'block' : 'none',
+            display: (this.props.isGame && !this.props.isSpying) ? 'block' : 'none',
             backgroundClip: 'border-box',
             backgroundImage: 'url(' + this.props.image.src + ')',
             backgroundRepeat: 'no-repeat',

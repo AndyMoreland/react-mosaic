@@ -10,6 +10,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
         hole: PaneConstants.START_HOLE,
         matrix: [4,4],
         isGame: false,
+        isSpying: false,
         isLoading: false
     };
 
@@ -22,6 +23,9 @@ var PaneStore = merge(EventEmitter.prototype,{
     },
     isGame: function(){
         return data.isGame;
+    },
+    isSpying: function(){
+        return data.isSpying;
     },
     getChunk: function(coords){
         return data.chunks[coords[0]][coords[1]];
@@ -194,14 +198,13 @@ AppDispatcher.register(function(payload){
             data.isLoading = false;
             break;
         case PaneConstants.ACTION_SPY_START:
-            data.isGame = false;
-            setTimeout(function(){
-                data.isGame = true;
-                PaneStore.emit('change');
-            },PaneConstants.SPY_DURATION);
+            data.isSpying = true;
+            break;
+        case PaneConstants.ACTION_SPY_STOP:
+            data.isSpying = false;
             break;
         default:
-            return true;
+            break;
     }
 
     PaneStore.emit('change');

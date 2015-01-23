@@ -56,8 +56,8 @@ var React = require('react'),
                     <div className="toolbar-landscape__section">
                         <Icon icon={gameIcon} onMouseDown={this._onPlayMouseDown}/>
                     </div>
-                    <div className="toolbar-landscape__section" style={this._eyeStyle()}>
-                        <Icon icon="action-visibility" onMouseDown={this._onSpyMouseDown}/>
+                    <div className="toolbar-landscape__section">
+                        <Icon icon="action-visibility" onMouseDown={this._onSpyTouchStart} onTouchStart={this._onSpyTouchStart} onMouseUp={this._onSpyTouchStop} onMouseLeave={this._onSpyTouchStop} onMouseOut={this._onSpyTouchStop} onTouchEnd={this._onSpyTouchStop} onTouchCancel={this._onSpyTouchStop}/>
                     </div>                                        
                 </div>
 
@@ -79,7 +79,7 @@ var React = require('react'),
                     </div>
 
                     <div className="toolbar-portrait__section">
-                        <span className="toolbar-portrait__section-btn mdfi_action_visibility" onMouseDown={this._onSpyMouseDown}></span>
+                        <span className="toolbar-portrait__section-btn mdfi_action_visibility" onMouseDown={this._onSpyTouchStart} onTouchStart={this._onSpyTouchStart} onMouseUp={this._onSpyTouchStop} onMouseLeave={this._onSpyTouchStop} onMouseOut={this._onSpyTouchStop} onTouchEnd={this._onSpyTouchStop} onTouchCancel={this._onSpyTouchStop}></span>
                     </div>
                 </div>
             </div>);
@@ -120,12 +120,12 @@ var React = require('react'),
             this.refs.categoriesDialog.dismiss();
             _500pxImageProvider.selectCategory(category);
         },
-        _onSpyMouseDown: function() {
-            PaneActions.spyStart();
+        _onSpyTouchStart: function() {
+            PaneActions.spyStart();    
         },
-        _eyeStyle: function(){
-            return (this.state.isGame) ? {display:'block'} : {display:'none'};
-        }
+        _onSpyTouchStop: function() {
+            PaneActions.spyStop();
+        },
     });
 
 module.exports = Header;
