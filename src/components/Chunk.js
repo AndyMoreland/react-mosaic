@@ -40,6 +40,7 @@ var data = {
             homePoint: this.props.point,
             point: chunk.point,
             isCrawable: chunk.isCrawable,
+            isShuffling: chunk.isCrawable,
             width: this.props.paneEdge / this.props.matrix[0], // px 100 / this.props.matrix[0], // %
             height: this.props.paneEdge / this.props.matrix[1], // px 100 / this.props.matrix[1], // %
             edgePx: 0,
@@ -75,7 +76,8 @@ var data = {
     {
         var classes = ReactWithAddons.addons.classSet({
                 'pane__chunk': true,
-                'pane__chunk_crawable': this.state.isCrawable && this.props.isGame
+                'pane__chunk_crawable': this.state.isCrawable && this.props.isGame,
+                'pane__chunk_shuffle': this.state.isShuffling
             }),
             rightBorderStyles = {
                 display: (this.props.isGame && (this.state.point[0] < this.props.matrix[0] - 1)) ? 'block' : 'none',
@@ -101,6 +103,7 @@ var data = {
             this.setState({
                 point: chunk.point,
                 isCrawable: chunk.isCrawable,
+                isShuffling: PaneStore.isShuffling(),
                 dragX: 0,
                 dragY: 0
             });

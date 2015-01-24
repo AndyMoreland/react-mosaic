@@ -39,6 +39,10 @@
     cursor: pointer;
 }
 
+.pane__chunk_shuffle{
+    transition: all 0.06s ease;
+}
+
 .pane__chunk-border{
     position: absolute;
     background-color: #fff;
@@ -61,3 +65,12 @@
     border-bottom: 1px solid #fff;
 }
 
+.pane__nav{
+    box-shadow: 0 0 5px #000;
+    position: absolute;
+}
+
+.pane__nav-icon{
+    color: #fff;
+    text-shadow: 0 0 1px #000;
+}

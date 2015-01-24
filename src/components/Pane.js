@@ -4,7 +4,9 @@ var React = require('react'),
     PaneActions = require('../actions/PaneActions'),
     PaneStore = require('../stores/PaneStore'),
     PaneConstants = require('../constants/PaneConstants'),
+    _500pxImageProvider = require('../imageProviders/_500pxImageProvider'),
     Chunk = require('./Chunk'),
+    NextButton = require('./NextButton'),
     mui = require('material-ui'),
     Icon = mui.Icon,
     Pane = React.createClass({
@@ -78,6 +80,7 @@ var React = require('react'),
                         matrix={this.state.matrix}
                         paneEdge={this.state.edge}/>;
                 },this)}
+                <NextButton isGame={this.state.isGame} paneEdge={this.state.edge} onMouseDown={this._onNext}/>
                 <div ref="paneLoading" className='pane__loading' style={this._loadingStyle()}>
                     <img className='pane__loading-img' style={this._loadingImgStyle()} src='img/loading.gif' />
                 </div>
@@ -167,6 +170,10 @@ var React = require('react'),
             }
 
             return image;
+        },
+
+        _onNext: function(){
+            _500pxImageProvider.next(); 
         }
 });
 

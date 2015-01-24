@@ -11,7 +11,8 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
         matrix: [4,4],
         isGame: false,
         isSpying: false,
-        isLoading: false
+        isLoading: false,
+        isShuffling: false
     };
 
 var PaneStore = merge(EventEmitter.prototype,{
@@ -35,6 +36,9 @@ var PaneStore = merge(EventEmitter.prototype,{
     },
     getHole: function(){
         return data.hole;
+    },
+    isShuffling: function(){
+        return data.isShuffling;
     }
 });
 
@@ -72,7 +76,7 @@ function shuffle(){
         rndIndex = null,
         hotChunk = null,
         intervalId;
-
+    data.isShuffling = true;
     intervalId = setInterval(function(){
         crawableChunks = [];
         iterateChunks(function(x,y){
@@ -84,9 +88,12 @@ function shuffle(){
         crawl([crawableChunks[rndIndex][0],crawableChunks[rndIndex][1]]);
         hotChunk = [crawableChunks[rndIndex][0],crawableChunks[rndIndex][1]];
         crawlCount++;
+        if (crawlCount === PaneConstants.SHUFFLE_DEPTH) {
+            data.isShuffling = false;
+            clearInterval(intervalId);
+        }
         PaneStore.emit('change');
-        if (crawlCount === PaneConstants.SHUFFLE_DEPTH) clearInterval(intervalId);
-    },PaneConstants.ANIMATION_DURATION);
+    },PaneConstants.ANIMATION_SHUFFLE_DURATION);
 }
 
 function crawl(coords){

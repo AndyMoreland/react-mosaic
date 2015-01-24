@@ -24,8 +24,8 @@ var React = require('react'),
             PaneStore.on('change',this._onPaneChange);
         },
         render : function(){
-            var gameIcon = (this.state.isGame) ? 'av-replay' : 'av-play-arrow',
-                gameIconClass = (this.state.isGame) ? 'toolbar-portrait__section-btn  mdfi_av_replay' : 'toolbar-portrait__section-btn  mdfi_av_play_arrow',
+            var gameIcon = (this.state.isGame) ? 'av-stop' : 'av-play-arrow',
+                gameIconClass = (this.state.isGame) ? 'toolbar-portrait__section-btn  mdfi_av_stop' : 'toolbar-portrait__section-btn  mdfi_av_play_arrow',
                 _this = this;
 
             return (<div className="toolbar-container">
@@ -51,9 +51,6 @@ var React = require('react'),
                         <Icon icon="image-photo-library" onMouseDown={this._onImageMouseDown}/>
                     </div>
                     <div className="toolbar-landscape__section">
-                        <Icon icon="action-trending-neutral" onMouseDown={this._onNextMouseDown}/>
-                    </div>
-                    <div className="toolbar-landscape__section">
                         <Icon icon={gameIcon} onMouseDown={this._onPlayMouseDown}/>
                     </div>
                     <div className="toolbar-landscape__section">
@@ -68,10 +65,6 @@ var React = require('react'),
 
                     <div className="toolbar-portrait__section">
                         <span className="toolbar-portrait__section-btn mdfi_image_photo_library" onMouseDown={this._onImageMouseDown}></span>
-                    </div>
-
-                    <div className="toolbar-portrait__section">
-                        <span className="toolbar-portrait__section-btn mdfi_action_trending_neutral" onMouseDown={this._onNextMouseDown}></span>
                     </div>
 
                     <div className="toolbar-portrait__section">
@@ -95,9 +88,6 @@ var React = require('react'),
         },
         _onImageMouseDown : function(){
             this.refs.categoriesDialog.show();  
-        },
-        _onNextMouseDown: function(){
-            _500pxImageProvider.next();    
         },
         _onPlayMouseDown : function(){
             if (this.state.isGame){
