@@ -43,6 +43,11 @@ var React = require('react'),
                     })}
                 </Dialog>
 
+                <Dialog ref="gameDialog" title="Do you really want to stop the game?">
+                    <PaperButton label="Yes" href='#' onClick={this._onGameDialogAcceptMouseDown}></PaperButton>
+                    <PaperButton label="No" href='#' onClick={this._onGameDialogDismissMouseDown}></PaperButton>
+                </Dialog>
+
                 <div className="toolbar-landscape">
                     <div className="toolbar-landscape__section">
                         <Icon icon="image-grid-on" onMouseDown={this._onMatrixMouseDown}/>
@@ -89,12 +94,19 @@ var React = require('react'),
         _onImageMouseDown : function(){
             this.refs.categoriesDialog.show();  
         },
-        _onPlayMouseDown : function(){
+        _onPlayMouseDown: function(){
             if (this.state.isGame){
-                PaneActions.gameRollback();
+                this.refs.gameDialog.show();
             } else {
                 PaneActions.gameStart();
             }
+        },
+        _onGameDialogAcceptMouseDown: function(){
+            this.refs.gameDialog.dismiss();
+            PaneActions.gameRollback();
+        },
+        _onGameDialogDismissMouseDown: function(){
+            this.refs.gameDialog.dismiss();
         },
         _setMatrix33 : function() {this._setMatrix(3)},
         _setMatrix44 : function() {this._setMatrix(4)},
