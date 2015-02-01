@@ -43,7 +43,7 @@ var React = require('react'),
                     })}
                 </Dialog>
 
-                <Dialog ref="gameDialog" title="Do you really want to stop the game?">
+                <Dialog ref="gameDialog" title="Do you really want stop the game?">
                     <PaperButton label="Yes" href='#' onClick={this._onGameDialogAcceptMouseDown}></PaperButton>
                     <PaperButton label="No" href='#' onClick={this._onGameDialogDismissMouseDown}></PaperButton>
                 </Dialog>
