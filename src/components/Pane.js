@@ -145,9 +145,7 @@ var React = require('react'),
             var _this = this;
             setTimeout(function(){
                 _this.setState({ isGame : false });
-                console.info('YOU WIN!'); // todo
             },PaneConstants.ANIMATION_DURATION);
-
         },
 
         _getImageSpecs: function(image,edge)
