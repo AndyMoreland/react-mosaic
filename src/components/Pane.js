@@ -51,7 +51,7 @@ var React = require('react'),
         {
             var chunks = [],
                 chunkImage = {
-                    src: this.state.image.src,
+                    src: (this.state.image.src) ? this.state.image.src : PaneConstants.DEFAULT_IMAGE,
                     scaledWidth: this.state.image.scaledWidth,
                     scaledHeight: this.state.image.scaledHeight,
                     topOffset: this.state.image.topOffset,
