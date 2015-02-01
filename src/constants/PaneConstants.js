@@ -1,5 +1,6 @@
 var PaneConstants = 
 {
+    DEFAULT_IMAGE: '/img/covers/default.jpg',
     START_HOLE: [0,0],
     ANIMATION_SHUFFLE_DURATION: 60, // ms
     CLICK_DELAY: 350, //ms
