@@ -9,6 +9,7 @@
     "flux"
   ],
   "scripts": {
+    "build-material-css": "lessc src/less/material-ui.less > src/css/_material-ui.css",
     "css": "grunt concat-css && cleancss -o ./dist/css/styles.min.css ./dist/css/styles.css",
     "transform-js": "jsx -x js src/ dist/",
     "browserify": "browserify -t reactify -o dist/bundle.js dist/app.js -d",
