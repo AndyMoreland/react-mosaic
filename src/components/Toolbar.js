@@ -64,11 +64,11 @@ var React = require('react'),
                 </div>
 
                 <div className="toolbar-portrait mui-app-bar">
-                    <div className="toolbar-portrait__section">
+                    <div className="toolbar-portrait__section" style={this._matrixStyle()}>
                         <span className="toolbar-portrait__section-btn mdfi_image_grid_on" onMouseDown={this._onMatrixMouseDown}></span>
                     </div>
 
-                    <div className="toolbar-portrait__section">
+                    <div className="toolbar-portrait__section" style={this._imageStyle()}>
                         <span className="toolbar-portrait__section-btn mdfi_image_photo_library" onMouseDown={this._onImageMouseDown}></span>
                     </div>
 
@@ -76,7 +76,7 @@ var React = require('react'),
                         <span className={gameIconClass} onMouseDown={this._onPlayMouseDown}></span>
                     </div>
 
-                    <div className="toolbar-portrait__section">
+                    <div className="toolbar-portrait__section" style={this._spyStyle()}>
                         <span className="toolbar-portrait__section-btn mdfi_action_visibility" onMouseDown={this._onSpyTouchStart} onTouchStart={this._onSpyTouchStart} onMouseUp={this._onSpyTouchStop} onMouseLeave={this._onSpyTouchStop} onMouseOut={this._onSpyTouchStop} onTouchEnd={this._onSpyTouchStop} onTouchCancel={this._onSpyTouchStop}></span>
                     </div>
                 </div>
