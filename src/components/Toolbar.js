@@ -49,16 +49,16 @@ var React = require('react'),
                 </Dialog>
 
                 <div className="toolbar-landscape">
-                    <div className="toolbar-landscape__section">
+                    <div className="toolbar-landscape__section" style={this._matrixStyle()}>
                         <Icon icon="image-grid-on" onMouseDown={this._onMatrixMouseDown}/>
                     </div>
-                    <div className="toolbar-landscape__section">
+                    <div className="toolbar-landscape__section" style={this._imageStyle()}>
                         <Icon icon="image-photo-library" onMouseDown={this._onImageMouseDown}/>
                     </div>
                     <div className="toolbar-landscape__section">
                         <Icon icon={gameIcon} onMouseDown={this._onPlayMouseDown}/>
                     </div>
-                    <div className="toolbar-landscape__section">
+                    <div className="toolbar-landscape__section" style={this._spyStyle()}>
                         <Icon icon="action-visibility" onMouseDown={this._onSpyTouchStart} onTouchStart={this._onSpyTouchStart} onMouseUp={this._onSpyTouchStop} onMouseLeave={this._onSpyTouchStop} onMouseOut={this._onSpyTouchStop} onTouchEnd={this._onSpyTouchStop} onTouchCancel={this._onSpyTouchStop}/>
                     </div>                                        
                 </div>
@@ -89,10 +89,12 @@ var React = require('react'),
             });
         },
         _onMatrixMouseDown : function(){
-            this.refs.matrixDialog.show();
+            if (!this.state.isGame)
+                this.refs.matrixDialog.show();
         },
         _onImageMouseDown : function(){
-            this.refs.categoriesDialog.show();  
+            if (!this.state.isGame)
+                this.refs.categoriesDialog.show();  
         },
         _onPlayMouseDown: function(){
             if (this.state.isGame){
@@ -123,11 +125,22 @@ var React = require('react'),
             _500pxImageProvider.selectCategory(category);
         },
         _onSpyTouchStart: function() {
-            PaneActions.spyStart();    
+            if (this.state.isGame)
+                PaneActions.spyStart();    
         },
         _onSpyTouchStop: function() {
-            PaneActions.spyStop();
+            if (this.state.isGame)
+                PaneActions.spyStop();
         },
+        _matrixStyle: function(){
+            return this.state.isGame ? {opacity:'0.5'} : {};
+        },
+        _imageStyle: function(){
+            return this.state.isGame ? {opacity:'0.5'} : {};
+        },
+        _spyStyle: function(){
+            return this.state.isGame ? {} : {opacity:'0.5'};
+        }
     });
 
 module.exports = Header;
