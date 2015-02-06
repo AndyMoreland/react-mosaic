@@ -7,7 +7,7 @@ var inherit = require('../../lib/js/inherit'),
 
 	photos = [],
 	currentCategory = _500pxConstants.INIT_CATEGORY,
-	pageSize = 5,
+	pageSize = 20,
 	imageSize = 4,
 	page = 1,
 	index = 0,
