@@ -3,10 +3,11 @@
 var inherit = require('../../lib/js/inherit'),
 	ImageProvider = require('./ImageProvider'),
 	_500pxConstants = require('../constants/_500pxConstants'),
+	PaneActions = require('../actions/PaneActions'),
 
 	photos = [],
 	currentCategory = _500pxConstants.INIT_CATEGORY,
-	pageSize = 20,
+	pageSize = 5,
 	imageSize = 4,
 	page = 1,
 	index = 0,
@@ -56,10 +57,12 @@ _500pxImageProvider.prototype.getDefaultImage = function(){
 };
 
 _500pxImageProvider.prototype.selectCategory = function(category){
+	PaneActions.startLoading();
 	currentCategory = category;
 	loadPhotos(1,currentCategory,function(photos){
 		index++;
 		chargeImage(photos[0]);
+		PaneActions.stopLoading();
 	});
 };
 
@@ -70,9 +73,11 @@ _500pxImageProvider.prototype.next = function(){
 	{
 		index = 0;
 		page++;
+		PaneActions.startLoading();
 		loadPhotos(page,currentCategory,function(photos){
 			chargeImage(photos[0]);
 			index++;
+			PaneActions.stopLoading();
 		});
 	} else 
 	{

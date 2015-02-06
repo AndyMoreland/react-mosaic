@@ -75,7 +75,9 @@ function shuffle(){
         crawableChunks = [],
         rndIndex = null,
         hotChunk = null,
-        intervalId;
+        intervalId,
+        shuffleDepth = PaneConstants.SHUFFLE_DEPTH[data.matrix[0]] || 100;
+
     data.isShuffling = true;
     intervalId = setInterval(function(){
         crawableChunks = [];
@@ -88,7 +90,7 @@ function shuffle(){
         crawl([crawableChunks[rndIndex][0],crawableChunks[rndIndex][1]]);
         hotChunk = [crawableChunks[rndIndex][0],crawableChunks[rndIndex][1]];
         crawlCount++;
-        if (crawlCount === PaneConstants.SHUFFLE_DEPTH) {
+        if (crawlCount === shuffleDepth) {
             data.isShuffling = false;
             clearInterval(intervalId);
         }

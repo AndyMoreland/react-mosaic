@@ -4,8 +4,12 @@ var PaneConstants =
     START_HOLE: [0,0],
     ANIMATION_SHUFFLE_DURATION: 60, // ms
     CLICK_DELAY: 350, //ms
-    SHUFFLE_DEPTH: 100, //60
-    LOADING_EDGE: 40, //px
+    SHUFFLE_DEPTH: {
+        3: 50,
+        4: 100,
+        5: 150
+    }, // 3: 50 (matrix 3x3 => 50 times) 
+    LOADING_EDGE: 128, //px
     ACTION_MOUNT: 'CHUNK_MOUNT',
     ACTION_UNMOUNT: 'CHUNK_UNMOUNT',
     ACTION_SHUFFLE: 'CHUNK_SHUFFLE',
