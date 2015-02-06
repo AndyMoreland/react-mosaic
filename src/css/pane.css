@@ -68,6 +68,7 @@
 .pane__nav{
     box-shadow: 0 0 5px #000;
     position: absolute;
+    cursor: pointer;
 }
 
 .pane__nav-icon{
