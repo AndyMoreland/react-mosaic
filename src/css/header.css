@@ -1,0 +1,20 @@
+.header{
+    color: #fff;
+}
+
+.header__title{
+    margin-left: 15px;
+    font-size: 200%;
+}
+
+.header__menu-link,
+.header__menu-link:hover,
+.header__menu-link:focus,
+.header__menu-link:active
+{
+    color: #fff;
+    margin-top: 7px;
+    margin-right: 15px;
+    font-size: 150%;
+    text-decoration: none;
+}

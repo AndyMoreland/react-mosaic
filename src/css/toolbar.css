@@ -1,0 +1,81 @@
+.toolbar-container{
+
+}
+
+
+/* Vertical orientation */
+@media (orientation: portrait){
+    .toolbar-landscape{ display: none; }    
+}
+
+.toolbar-portrait__section-wrap{
+    color: #fff;
+    text-align: center;
+}
+
+.toolbar-portrait__section{
+	width: 25%;
+    display: inline-block;
+    padding: 15px 0;
+    text-align: center;
+    cursor: pointer;
+}
+
+.toolbar-portrait__section-btn{
+	position: relative;
+	color: #fff;
+	font-size: 100px;
+	cursor: pointer;
+}
+
+
+/* Horizontal orientation */
+@media (orientation: landscape){
+    .toolbar-portrait{ display: none; }    
+}
+
+.toolbar-landscape{
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #00bcd4;
+}
+
+.toolbar-landscape__section{
+	color: #fff;
+	clear: both;
+	padding: 10px 15px;
+	cursor: pointer;
+}
+
+
+/* Dialog */
+.toolbar-container__dialog-link{
+	-webkit-border-radius: 2px;
+	-webkit-background-clip: padding-box;
+	-moz-border-radius: 2px;
+	-moz-background-clip: padding;
+	border-radius: 2px;
+	background-clip: padding-box;
+	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+	font-size: 14px;
+	line-height: 20px;
+	padding-top: 6px;
+	margin-bottom: 15px;
+	letter-spacing: 0;
+	text-transform: uppercase;
+	font-weight: 500;
+	color: rgba(0, 0, 0, 0.87);
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	display: block;
+	height: 36px;
+	min-width: 88px;
+	cursor: pointer;
+	text-align: center;
+	clear: both;
+}
